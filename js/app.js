@@ -729,11 +729,12 @@ class GitStoryApp {
 
   /**
    * Populate Top 5 Repos slide (Slide 10)
+   * Shows repos where user actually contributed (commits, PRs, reviews)
    */
   populateTopReposSlide() {
-    // Use the pre-computed scored repos which factor in user activity (commits, PRs)
-    const { scoredRepos } = this.processedData;
-    const topRepos = scoredRepos?.slice(0, 5) || [];
+    // Use topContributedRepos - repos where user has actual commits/PRs
+    const { topContributedRepos } = this.processedData;
+    const topRepos = topContributedRepos?.slice(0, 5) || [];
     
     // Render repo cards - using actual HTML element ID
     const container = document.getElementById('repo-catalog');
@@ -741,7 +742,16 @@ class GitStoryApp {
       container.innerHTML = '';
       
       if (topRepos.length === 0) {
-        container.innerHTML = '<p class="font-mono" style="color: var(--text-muted);">No repositories found</p>';
+        container.innerHTML = `
+          <div class="empty-state">
+            <p class="font-mono" style="color: var(--text-muted); text-align: center;">
+              No contribution data found.<br>
+              <span style="font-size: 0.85em; opacity: 0.7;">
+                GitHub API only returns last 90 days of events.
+              </span>
+            </p>
+          </div>
+        `;
         return;
       }
       
@@ -754,12 +764,13 @@ class GitStoryApp {
 
   /**
    * Populate Featured Repo slide (Slide 11)
+   * Shows the repo where user contributed the most
    */
   populateFeaturedRepoSlide() {
-    // Use the pre-computed scored repos which factor in user activity
-    const { scoredRepos } = this.processedData;
+    // Use topContributedRepos - the top one is the featured
+    const { topContributedRepos } = this.processedData;
     
-    const featured = scoredRepos?.[0];
+    const featured = topContributedRepos?.[0];
     if (!featured) return;
     
     // Update featured repo info - using actual HTML element IDs
@@ -772,11 +783,29 @@ class GitStoryApp {
     const linkEl = document.getElementById('featured-link');
     
     if (nameEl) nameEl.textContent = featured.name;
-    if (descEl) descEl.textContent = featured.description || 'A remarkable piece of work';
+    
+    // Show contribution-focused description
+    const activity = featured.userActivity || {};
+    const contributionDesc = [];
+    if (activity.commits > 0) contributionDesc.push(`${activity.commits} commits`);
+    if (activity.pullRequests > 0) contributionDesc.push(`${activity.pullRequests} PRs`);
+    if (activity.reviews > 0) contributionDesc.push(`${activity.reviews} reviews`);
+    
+    if (descEl) {
+      descEl.textContent = featured.description || 
+        (contributionDesc.length > 0 ? `Your contributions: ${contributionDesc.join(', ')}` : 'Your most active project');
+    }
+    
     if (langEl) langEl.textContent = featured.language || 'Multiple';
     if (starsEl) starsEl.textContent = (featured.stargazers_count || 0).toLocaleString();
     if (forksEl) forksEl.textContent = (featured.forks_count || 0).toLocaleString();
-    if (scoreEl) scoreEl.textContent = (featured.score || 0).toFixed(1);
+    
+    // Show contribution score instead of arbitrary score
+    if (scoreEl) {
+      const totalContribs = (activity.commits || 0) + (activity.pullRequests || 0) + (activity.reviews || 0);
+      scoreEl.textContent = totalContribs.toString();
+    }
+    
     if (linkEl) linkEl.href = featured.html_url || '#';
   }
 

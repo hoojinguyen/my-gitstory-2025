@@ -949,7 +949,8 @@ class ChartsRenderer {
 
   /**
    * Render a single repository card element
-   * @param {Object} repo - Repository data
+   * Shows repos where user actually contributed
+   * @param {Object} repo - Repository data with userActivity
    * @param {number} rank - Rank number (1-5)
    * @returns {HTMLElement} - Card element
    */
@@ -960,29 +961,49 @@ class ChartsRenderer {
     
     const langColor = this.getLanguageColor(repo.language);
     const activity = repo.userActivity || {};
-    const hasActivity = activity.commits > 0 || activity.pullRequests > 0;
     
-    // Show user's activity if available
-    const activityBadge = hasActivity ? `
-      <div class="repo-activity">
-        ${activity.commits > 0 ? `<span class="activity-badge commits" title="Your commits">📝 ${activity.commits}</span>` : ''}
-        ${activity.pullRequests > 0 ? `<span class="activity-badge prs" title="Your PRs">🔀 ${activity.pullRequests}</span>` : ''}
-      </div>
-    ` : '';
+    // Build activity badges showing user's contributions
+    const activityBadges = [];
+    if (activity.commits > 0) {
+      activityBadges.push(`<span class="activity-badge commits" title="Your commits"><span class="badge-icon">📝</span> ${activity.commits} commits</span>`);
+    }
+    if (activity.pullRequests > 0) {
+      activityBadges.push(`<span class="activity-badge prs" title="Your PRs"><span class="badge-icon">🔀</span> ${activity.pullRequests} PRs</span>`);
+    }
+    if (activity.reviews > 0) {
+      activityBadges.push(`<span class="activity-badge reviews" title="Your reviews"><span class="badge-icon">👀</span> ${activity.reviews} reviews</span>`);
+    }
+    
+    const activityHtml = activityBadges.length > 0 
+      ? `<div class="repo-activity">${activityBadges.join('')}</div>` 
+      : '';
+    
+    // Calculate total contributions for display
+    const totalContribs = (activity.commits || 0) + (activity.pullRequests || 0) + (activity.reviews || 0);
+    
+    // Show if this is an external repo (not owned by user)
+    const externalBadge = repo.isOwned === false 
+      ? '<span class="external-badge" title="External contribution">🌐</span>' 
+      : '';
     
     card.innerHTML = `
       <div class="repo-rank font-display">#${rank}</div>
       <div class="repo-info">
-        <h4 class="repo-name font-mono">${repo.name}</h4>
-        <p class="repo-desc">${repo.description || 'A work of code artistry'}</p>
+        <h4 class="repo-name font-mono">
+          ${externalBadge}${repo.name}
+        </h4>
+        <p class="repo-desc">${repo.description || 'Your code contributions'}</p>
         <div class="repo-meta">
-          ${repo.language ? `<span class="repo-lang"><span class="lang-dot" style="background: ${langColor}"></span>${repo.language}</span>` : ''}
-          <span class="repo-stars">★ ${(repo.stargazers_count || 0).toLocaleString()}</span>
-          <span class="repo-forks">⑂ ${(repo.forks_count || 0).toLocaleString()}</span>
+          ${repo.language ? `<span class="repo-lang"><span class="lang-dot" style="background: ${langColor}; box-shadow: 0 0 6px ${langColor}"></span>${repo.language}</span>` : ''}
+          ${repo.stargazers_count > 0 ? `<span class="repo-stars">★ ${repo.stargazers_count.toLocaleString()}</span>` : ''}
+          ${repo.forks_count > 0 ? `<span class="repo-forks">⑂ ${repo.forks_count.toLocaleString()}</span>` : ''}
         </div>
-        ${activityBadge}
+        ${activityHtml}
       </div>
-      <div class="repo-score font-display">${(repo.score || 0).toFixed(1)}</div>
+      <div class="repo-contribution-score">
+        <span class="contrib-number font-display">${totalContribs}</span>
+        <span class="contrib-label font-mono">contribs</span>
+      </div>
     `;
     
     return card;

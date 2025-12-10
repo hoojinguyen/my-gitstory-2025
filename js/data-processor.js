@@ -21,12 +21,16 @@ class DataProcessor {
     // Calculate user activity per repo from events
     const repoActivity = this.calculateRepoActivity(events);
     
+    // Get repos where user actually contributed (commits, PRs)
+    const topContributedRepos = this.getTopContributedRepos(events, repos);
+    
     return {
       stats: this.calculateStats(contributions, repos, user),
       heatmapData: this.processHeatmap(contributions),
       activityBreakdown: this.calculateActivityBreakdown(events),
       hourlyActivity: this.calculateHourlyActivity(events),
       scoredRepos: this.scoreRepositories(repos, repoActivity),
+      topContributedRepos, // NEW: Repos where user actually contributed
       repoActivity,
       languages,
       persona: this.determinePersona(contributions, repos, user, events),
@@ -79,6 +83,126 @@ class DataProcessor {
     }
     
     return activity;
+  }
+
+  /**
+   * Get top contributed repos - repos where user actually made commits/PRs
+   * This includes both owned repos and repos user contributed to
+   * @param {Array} events - GitHub events
+   * @param {Array} ownedRepos - User's owned repos for metadata
+   * @returns {Array} - Top repos with contribution data
+   */
+  getTopContributedRepos(events, ownedRepos = []) {
+    const repoContributions = {};
+    const repoMetadata = {};
+    
+    // Create lookup for owned repos
+    const ownedRepoMap = {};
+    for (const repo of ownedRepos) {
+      ownedRepoMap[repo.name] = repo;
+      ownedRepoMap[repo.full_name] = repo;
+    }
+    
+    // Analyze events to find repos with actual contributions
+    for (const event of events || []) {
+      const fullRepoName = event.repo?.name; // e.g., "owner/repo"
+      const repoName = fullRepoName?.split('/')[1] || fullRepoName;
+      if (!repoName || !fullRepoName) continue;
+      
+      if (!repoContributions[fullRepoName]) {
+        repoContributions[fullRepoName] = {
+          name: repoName,
+          fullName: fullRepoName,
+          commits: 0,
+          pullRequests: 0,
+          reviews: 0,
+          issues: 0,
+          total: 0,
+          lastActivity: null,
+        };
+      }
+      
+      const contrib = repoContributions[fullRepoName];
+      const eventDate = new Date(event.created_at);
+      
+      // Track last activity date
+      if (!contrib.lastActivity || eventDate > contrib.lastActivity) {
+        contrib.lastActivity = eventDate;
+      }
+      
+      // Count meaningful contributions (commits and PRs are most important)
+      switch (event.type) {
+        case 'PushEvent':
+          const commitCount = event.payload?.commits?.length || 1;
+          contrib.commits += commitCount;
+          contrib.total += commitCount * 2; // Weight commits higher
+          break;
+        case 'PullRequestEvent':
+          if (event.payload?.action === 'opened' || event.payload?.action === 'closed') {
+            contrib.pullRequests++;
+            contrib.total += 3; // PRs are very valuable
+          }
+          break;
+        case 'PullRequestReviewEvent':
+          contrib.reviews++;
+          contrib.total += 2;
+          break;
+        case 'PullRequestReviewCommentEvent':
+          contrib.reviews++;
+          contrib.total += 1;
+          break;
+        case 'IssuesEvent':
+          if (event.payload?.action === 'opened') {
+            contrib.issues++;
+            contrib.total += 1;
+          }
+          break;
+        case 'IssueCommentEvent':
+          contrib.issues++;
+          contrib.total += 0.5;
+          break;
+      }
+      
+      // Store repo URL if available
+      if (event.repo?.url) {
+        repoMetadata[fullRepoName] = {
+          url: `https://github.com/${fullRepoName}`,
+          htmlUrl: `https://github.com/${fullRepoName}`,
+        };
+      }
+    }
+    
+    // Filter to only repos with actual commits or PRs (real contributions)
+    const contributedRepos = Object.values(repoContributions)
+      .filter(repo => repo.commits > 0 || repo.pullRequests > 0 || repo.reviews > 0)
+      .map(repo => {
+        // Merge with owned repo data if available
+        const ownedRepo = ownedRepoMap[repo.name] || ownedRepoMap[repo.fullName];
+        const metadata = repoMetadata[repo.fullName] || {};
+        
+        return {
+          name: repo.name,
+          full_name: repo.fullName,
+          description: ownedRepo?.description || `Contributed ${repo.commits} commits`,
+          language: ownedRepo?.language || null,
+          stargazers_count: ownedRepo?.stargazers_count || 0,
+          forks_count: ownedRepo?.forks_count || 0,
+          html_url: ownedRepo?.html_url || metadata.htmlUrl || `https://github.com/${repo.fullName}`,
+          isOwned: !!ownedRepo,
+          userActivity: {
+            commits: repo.commits,
+            pullRequests: repo.pullRequests,
+            reviews: repo.reviews,
+            issues: repo.issues,
+            total: repo.total,
+          },
+          score: repo.total, // Score based on contribution weight
+          lastActivity: repo.lastActivity,
+        };
+      })
+      .sort((a, b) => b.score - a.score);
+    
+    return contributedRepos;
   }
 
   /**
