@@ -1,0 +1,610 @@
+/*
+ * GitStory 2025 - Vintage Cinema Edition
+ * Animation System
+ * 
+ * Typewriter, film reel, projector effects
+ * Respects prefers-reduced-motion
+ */
+
+/* ============================================
+   Typewriter Effect
+   ============================================ */
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid var(--vintage-gold);
+  width: 0;
+  animation: 
+    typewriter 3s steps(40) forwards,
+    blink-caret 0.75s step-end infinite;
+}
+
+.typewriter-slow {
+  animation: 
+    typewriter 5s steps(60) forwards,
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: var(--vintage-gold); }
+  50% { border-color: transparent; }
+}
+
+/* Typewriter that hides cursor after completion */
+.typewriter-complete {
+  animation: 
+    typewriter 3s steps(40) forwards,
+    blink-caret 0.75s step-end 4,
+    hide-caret 0.1s 3s forwards;
+}
+
+@keyframes hide-caret {
+  to { border-color: transparent; }
+}
+
+/* ============================================
+   Film Projector Start Effect
+   ============================================ */
+.projector-start {
+  animation: projector-flicker 0.5s ease-out;
+}
+
+@keyframes projector-flicker {
+  0% { 
+    opacity: 0;
+    filter: brightness(3) contrast(2);
+  }
+  10% { 
+    opacity: 1;
+    filter: brightness(2) contrast(1.5);
+  }
+  20% { 
+    opacity: 0.8;
+    filter: brightness(1.5) contrast(1.2);
+  }
+  30% { 
+    opacity: 1;
+    filter: brightness(2.5) contrast(1.8);
+  }
+  50% { 
+    opacity: 0.9;
+    filter: brightness(1.2) contrast(1.1);
+  }
+  70% { 
+    opacity: 1;
+    filter: brightness(1.1) contrast(1);
+  }
+  100% { 
+    opacity: 1;
+    filter: brightness(1) contrast(1);
+  }
+}
+
+/* ============================================
+   Film Reel Transition
+   ============================================ */
+.film-reel-enter {
+  animation: reel-in 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.film-reel-exit {
+  animation: reel-out 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes reel-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%) scale(0.9);
+    filter: blur(4px);
+  }
+  40% {
+    opacity: 0.7;
+    transform: translateY(5%) scale(1.02);
+  }
+  70% {
+    opacity: 0.9;
+    transform: translateY(-2%) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes reel-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%) scale(0.9);
+    filter: blur(4px);
+  }
+}
+
+/* ============================================
+   Vintage Reveal Effect
+   ============================================ */
+.vintage-reveal {
+  animation: vintage-fade-in 1s ease-out forwards;
+}
+
+@keyframes vintage-fade-in {
+  0% {
+    opacity: 0;
+    filter: sepia(1) brightness(0.5);
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.7;
+    filter: sepia(0.5) brightness(0.8);
+  }
+  100% {
+    opacity: 1;
+    filter: sepia(0.25) brightness(1);
+    transform: scale(1);
+  }
+}
+
+/* Delayed reveal for staggered elements */
+.vintage-reveal-delay-1 { animation-delay: 0.2s; opacity: 0; }
+.vintage-reveal-delay-2 { animation-delay: 0.4s; opacity: 0; }
+.vintage-reveal-delay-3 { animation-delay: 0.6s; opacity: 0; }
+.vintage-reveal-delay-4 { animation-delay: 0.8s; opacity: 0; }
+.vintage-reveal-delay-5 { animation-delay: 1s; opacity: 0; }
+
+/* ============================================
+   Film Flicker Effect
+   ============================================ */
+.film-flicker {
+  animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  3% { opacity: 0.95; }
+  6% { opacity: 1; }
+  9% { opacity: 0.92; }
+  12% { opacity: 1; }
+  50% { opacity: 1; }
+  53% { opacity: 0.97; }
+  56% { opacity: 1; }
+  80% { opacity: 1; }
+  82% { opacity: 0.94; }
+  84% { opacity: 1; }
+}
+
+/* Intense flicker for dramatic moments */
+.film-flicker-intense {
+  animation: flicker-intense 2s infinite;
+}
+
+@keyframes flicker-intense {
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  5% { opacity: 0.8; filter: brightness(0.9); }
+  10% { opacity: 1; filter: brightness(1.1); }
+  15% { opacity: 0.85; filter: brightness(0.95); }
+  20% { opacity: 1; filter: brightness(1); }
+  30% { opacity: 0.9; filter: brightness(1.05); }
+  35% { opacity: 1; filter: brightness(1); }
+  50% { opacity: 0.95; filter: brightness(0.98); }
+  55% { opacity: 1; filter: brightness(1); }
+  70% { opacity: 0.88; filter: brightness(0.92); }
+  75% { opacity: 1; filter: brightness(1.08); }
+  80% { opacity: 0.92; filter: brightness(0.96); }
+  85% { opacity: 1; filter: brightness(1); }
+}
+
+/* ============================================
+   Slide Transitions
+   ============================================ */
+.slide-fade-in {
+  animation: slide-in 0.6s ease-out forwards;
+}
+
+.slide-fade-out {
+  animation: slide-out 0.4s ease-in forwards;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+}
+
+/* ============================================
+   Number Counter Animation
+   ============================================ */
+.counter-animate {
+  animation: counter-pop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+@keyframes counter-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Pulsing Glow Effect
+   ============================================ */
+.glow-pulse {
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px var(--vintage-gold),
+      0 0 10px var(--vintage-secondary);
+  }
+  50% {
+    text-shadow: 
+      0 0 10px var(--vintage-gold),
+      0 0 20px var(--vintage-secondary),
+      0 0 30px var(--vintage-accent);
+  }
+}
+
+/* ============================================
+   Curtain Open Effect
+   ============================================ */
+.curtain-left,
+.curtain-right {
+  position: fixed;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--vintage-dark);
+  z-index: 9999;
+}
+
+.curtain-left {
+  left: 0;
+  transform-origin: left center;
+  animation: curtain-open-left 1.5s ease-in-out 0.5s forwards;
+}
+
+.curtain-right {
+  right: 0;
+  transform-origin: right center;
+  animation: curtain-open-right 1.5s ease-in-out 0.5s forwards;
+}
+
+@keyframes curtain-open-left {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes curtain-open-right {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* ============================================
+   Vintage Photo Reveal
+   ============================================ */
+.photo-reveal {
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-reveal::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--vintage-cream);
+  animation: photo-develop 2s ease-out forwards;
+}
+
+@keyframes photo-develop {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  60% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   Chart Drawing Animation
+   ============================================ */
+.chart-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-line 2s ease-out forwards;
+}
+
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Bar chart grow animation */
+.bar-grow {
+  transform-origin: bottom;
+  animation: grow-up 0.6s ease-out forwards;
+}
+
+@keyframes grow-up {
+  from {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Staggered bar animations */
+.bar-grow:nth-child(1) { animation-delay: 0.1s; }
+.bar-grow:nth-child(2) { animation-delay: 0.2s; }
+.bar-grow:nth-child(3) { animation-delay: 0.3s; }
+.bar-grow:nth-child(4) { animation-delay: 0.4s; }
+.bar-grow:nth-child(5) { animation-delay: 0.5s; }
+.bar-grow:nth-child(6) { animation-delay: 0.6s; }
+.bar-grow:nth-child(7) { animation-delay: 0.7s; }
+
+/* ============================================
+   Contribution Grid Animation
+   ============================================ */
+.grid-cell-animate {
+  animation: cell-pop 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes cell-pop {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   Button Interactions
+   ============================================ */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-ripple:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* ============================================
+   Loading Animations
+   ============================================ */
+.loading-film {
+  width: 60px;
+  height: 60px;
+  border: 4px solid var(--vintage-secondary);
+  border-radius: 50%;
+  position: relative;
+  animation: film-spin 1.5s linear infinite;
+}
+
+.loading-film::before,
+.loading-film::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--vintage-gold);
+  border-radius: 50%;
+}
+
+.loading-film::before {
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.loading-film::after {
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes film-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Projector loading */
+.loading-projector {
+  display: flex;
+  gap: 8px;
+}
+
+.loading-projector span {
+  width: 12px;
+  height: 12px;
+  background: var(--vintage-gold);
+  border-radius: 50%;
+  animation: projector-dot 1.4s ease-in-out infinite;
+}
+
+.loading-projector span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-projector span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes projector-dot {
+  0%, 100% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Confetti Animation (for finale)
+   ============================================ */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: var(--vintage-gold);
+  animation: confetti-fall 3s ease-in forwards;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   Focus States (Accessibility)
+   ============================================ */
+:focus-visible {
+  outline: 2px solid var(--vintage-gold);
+  outline-offset: 3px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--vintage-gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.3);
+}
+
+/* ============================================
+   Reduced Motion - Disable all animations
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .typewriter,
+  .typewriter-slow,
+  .typewriter-complete {
+    width: auto;
+    border-right: none;
+    animation: none;
+  }
+  
+  .projector-start,
+  .film-reel-enter,
+  .film-reel-exit,
+  .vintage-reveal,
+  .film-flicker,
+  .film-flicker-intense,
+  .slide-fade-in,
+  .slide-fade-out,
+  .counter-animate,
+  .glow-pulse,
+  .photo-reveal::after,
+  .chart-draw,
+  .bar-grow,
+  .grid-cell-animate,
+  .loading-film,
+  .loading-projector span,
+  .confetti {
+    animation: none !important;
+  }
+  
+  .vintage-reveal,
+  .vintage-reveal-delay-1,
+  .vintage-reveal-delay-2,
+  .vintage-reveal-delay-3,
+  .vintage-reveal-delay-4,
+  .vintage-reveal-delay-5 {
+    opacity: 1 !important;
+  }
+  
+  .bar-grow {
+    transform: scaleY(1) !important;
+    opacity: 1 !important;
+  }
+  
+  .grid-cell-animate {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+  
+  .curtain-left,
+  .curtain-right {
+    display: none;
+  }
+  
+  .photo-reveal::after {
+    display: none;
+  }
+}

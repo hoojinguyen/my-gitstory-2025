@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GitStory 2025 - A vintage cinematic experience that transforms your GitHub contributions into a film-noir style journey through your year in code.">
+  <meta name="theme-color" content="#1a0f08">
+  
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="GitStory 2025 - Vintage Cinema Edition">
+  <meta property="og:description" content="Transform your GitHub contributions into a cinematic journey">
+  <meta property="og:type" content="website">
+  
+  <title>GitStory 2025 - Vintage Cinema Edition</title>
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Google Fonts: Playfair Display, Bebas Neue, Courier Prime -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/vintage-theme.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <!-- Favicon (vintage film reel) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body class="film-grain vignette">
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="sr-only" id="skip-link">Skip to main content</a>
+  
+  <!-- Film Curtains (opening animation) -->
+  <div class="curtain-left" aria-hidden="true"></div>
+  <div class="curtain-right" aria-hidden="true"></div>
+  
+  <!-- Main Application Container -->
+  <main id="main-content" class="slide-container" role="main">
+    
+    <!-- ========================================
+         SLIDE 1: Welcome / Input
+         ======================================== -->
+    <section class="slide active" id="slide-welcome" data-slide="0" aria-label="Welcome to GitStory">
+      <div class="slide-content">
+        <!-- Vintage Film Logo -->
+        <div class="welcome-logo vintage-reveal">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- Film reel icon -->
+            <circle cx="60" cy="60" r="55" stroke="var(--vintage-gold)" stroke-width="3" fill="none"/>
+            <circle cx="60" cy="60" r="45" stroke="var(--vintage-secondary)" stroke-width="2" fill="none"/>
+            <circle cx="60" cy="60" r="15" fill="var(--vintage-gold)"/>
+            <!-- Sprocket holes -->
+            <circle cx="60" cy="20" r="6" fill="var(--vintage-secondary)"/>
+            <circle cx="60" cy="100" r="6" fill="var(--vintage-secondary)"/>
+            <circle cx="20" cy="60" r="6" fill="var(--vintage-secondary)"/>
+            <circle cx="100" cy="60" r="6" fill="var(--vintage-secondary)"/>
+            <!-- Diagonal sprockets -->
+            <circle cx="31" cy="31" r="5" fill="var(--vintage-secondary)" opacity="0.7"/>
+            <circle cx="89" cy="31" r="5" fill="var(--vintage-secondary)" opacity="0.7"/>
+            <circle cx="31" cy="89" r="5" fill="var(--vintage-secondary)" opacity="0.7"/>
+            <circle cx="89" cy="89" r="5" fill="var(--vintage-secondary)" opacity="0.7"/>
+          </svg>
+        </div>
+        
+        <!-- Title -->
+        <h1 class="welcome-title vintage-reveal vintage-reveal-delay-1">
+          GitStory
+        </h1>
+        <p class="welcome-subtitle font-mono vintage-reveal vintage-reveal-delay-2">
+          — 2025 Vintage Cinema Edition —
+        </p>
+        
+        <!-- Description -->
+        <p class="welcome-description vintage-reveal vintage-reveal-delay-3">
+          Transform your GitHub contributions into a cinematic journey<br>
+          through your year in code.
+        </p>
+        
+        <!-- Input Form -->
+        <form id="github-form" class="welcome-form vintage-reveal vintage-reveal-delay-4" autocomplete="off">
+          <div class="form-group">
+            <label for="github-username" class="form-label font-mono">
+              Enter Your GitHub Username
+            </label>
+            <div class="input-wrapper">
+              <span class="input-prefix" aria-hidden="true">@</span>
+              <input 
+                type="text" 
+                id="github-username" 
+                name="username"
+                class="vintage-input" 
+                placeholder="hoojinguyen"
+                required
+                autocomplete="off"
+                spellcheck="false"
+                aria-describedby="username-hint"
+              >
+            </div>
+            <p id="username-hint" class="form-hint font-mono">
+              We'll fetch your public GitHub data
+            </p>
+          </div>
+          
+          <!-- Token Input (Optional) -->
+          <div class="form-group token-group">
+            <div class="token-header">
+              <label for="github-token" class="form-label font-mono">
+                GitHub Token
+                <span class="optional-badge">Optional</span>
+              </label>
+              <div class="tooltip">
+                <button type="button" class="info-btn" aria-label="What is a GitHub token?">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 0a8 8 0 100 16A8 8 0 008 0zm1 12H7V7h2v5zm0-6H7V4h2v2z"/>
+                  </svg>
+                </button>
+                <div class="tooltip-content" role="tooltip">
+                  A Personal Access Token increases rate limits<br>
+                  from 60 to 5000 requests/hour.<br>
+                  <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">Create token →</a>
+                </div>
+              </div>
+            </div>
+            <input 
+              type="password" 
+              id="github-token" 
+              name="token"
+              class="vintage-input" 
+              placeholder="ghp_xxxxxxxxxxxx"
+              autocomplete="off"
+              aria-describedby="token-hint"
+            >
+            <p id="token-hint" class="form-hint font-mono">
+              Stored locally, never sent to our servers
+            </p>
+          </div>
+          
+          <!-- Submit Button -->
+          <button type="submit" class="vintage-btn play-btn" id="play-story-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Play Story
+          </button>
+          
+          <!-- Error Message -->
+          <div id="error-message" class="error-message" role="alert" aria-live="polite" hidden>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <span id="error-text"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 2: Title Card
+         ======================================== -->
+    <section class="slide" id="slide-title" data-slide="1" aria-label="Your GitHub Story Title">
+      <div class="slide-content title-card">
+        <!-- Film frame decoration -->
+        <div class="film-frame" aria-hidden="true">
+          <div class="frame-corner top-left"></div>
+          <div class="frame-corner top-right"></div>
+          <div class="frame-corner bottom-left"></div>
+          <div class="frame-corner bottom-right"></div>
+        </div>
+        
+        <!-- User Avatar -->
+        <div class="title-avatar vintage-avatar-frame">
+          <img 
+            id="user-avatar" 
+            class="vintage-avatar" 
+            src="" 
+            alt="GitHub avatar"
+            loading="lazy"
+          >
+        </div>
+        
+        <!-- Username with Typewriter -->
+        <h2 class="title-username font-display" id="user-name">
+          <!-- Filled by JS -->
+        </h2>
+        
+        <!-- Subtitle -->
+        <p class="title-tagline font-mono" id="user-tagline">
+          — A Year in Code —
+        </p>
+        
+        <!-- User Details -->
+        <div class="title-details" id="user-details">
+          <div class="detail-item" id="detail-location" hidden>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M11.536 3.464a5 5 0 010 7.072L8 14.07l-3.536-3.535a5 5 0 117.072-7.072v.001zm1.06 8.132a6.5 6.5 0 10-9.192 0l3.535 3.536a1.5 1.5 0 002.122 0l3.535-3.536zM8 9a2 2 0 100-4 2 2 0 000 4z"/>
+            </svg>
+            <span id="location-text"></span>
+          </div>
+          <div class="detail-item" id="detail-company" hidden>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M1.5 14.25c0 .138.112.25.25.25H4v-1.25a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v1.25h2.25a.25.25 0 00.25-.25V1.75a.25.25 0 00-.25-.25h-8.5a.25.25 0 00-.25.25v12.5zM1.75 16A1.75 1.75 0 010 14.25V1.75C0 .784.784 0 1.75 0h8.5C11.216 0 12 .784 12 1.75v12.5c0 .085-.006.168-.018.25h2.268a.25.25 0 00.25-.25V8.285a.25.25 0 00-.111-.208l-1.055-.703a.75.75 0 11.832-1.248l1.055.703c.487.325.779.871.779 1.456v5.965A1.75 1.75 0 0114.25 16h-3.5a.75.75 0 01-.197-.026c-.099.017-.2.026-.303.026h-3a.75.75 0 01-.75-.75V14h-1v1.25a.75.75 0 01-.75.75h-3zM3 3.75A.75.75 0 013.75 3h.5a.75.75 0 010 1.5h-.5A.75.75 0 013 3.75zM3.75 6a.75.75 0 000 1.5h.5a.75.75 0 000-1.5h-.5zM3 9.75A.75.75 0 013.75 9h.5a.75.75 0 010 1.5h-.5A.75.75 0 013 9.75zM7.75 9a.75.75 0 000 1.5h.5a.75.75 0 000-1.5h-.5zM7 6.75A.75.75 0 017.75 6h.5a.75.75 0 010 1.5h-.5A.75.75 0 017 6.75zM7.75 3a.75.75 0 000 1.5h.5a.75.75 0 000-1.5h-.5z"/>
+            </svg>
+            <span id="company-text"></span>
+          </div>
+          <div class="detail-item" id="detail-joined" hidden>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M4.75 0a.75.75 0 01.75.75V2h5V.75a.75.75 0 011.5 0V2H14a1 1 0 011 1v10a1 1 0 01-1 1H2a1 1 0 01-1-1V3a1 1 0 011-1h1.75V.75a.75.75 0 01.75-.75zM2.5 7v5.5h11V7h-11z"/>
+            </svg>
+            <span id="joined-text"></span>
+          </div>
+        </div>
+        
+        <!-- Year Badge -->
+        <div class="year-badge">
+          <span class="year-number font-display">2025</span>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 3: Velocity Chronicle (Contributions Line Chart)
+         ======================================== -->
+    <section class="slide" id="slide-velocity" data-slide="2" aria-label="Contribution Velocity">
+      <div class="slide-content">
+        <!-- Paper texture card -->
+        <div class="vintage-card paper-texture velocity-card">
+          <div class="card-header">
+            <h3 class="card-title font-display">Velocity Chronicle</h3>
+            <p class="card-subtitle font-mono">Your Contribution Journey Through 2025</p>
+          </div>
+          
+          <!-- Chart Container -->
+          <div class="chart-container">
+            <canvas id="velocity-chart" aria-label="Contribution velocity line chart" role="img"></canvas>
+          </div>
+          
+          <!-- Statistics -->
+          <div class="stat-grid velocity-stats">
+            <div class="stat-item">
+              <span class="stat-number" id="total-contributions">0</span>
+              <span class="stat-label">Total Contributions</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="daily-average">0</span>
+              <span class="stat-label">Daily Average</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="best-streak">0</span>
+              <span class="stat-label">Best Streak (Days)</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="best-day">0</span>
+              <span class="stat-label">Best Day</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 4: Grid Tapestry (Contribution Heatmap)
+         ======================================== -->
+    <section class="slide" id="slide-heatmap" data-slide="3" aria-label="Contribution Heatmap">
+      <div class="slide-content">
+        <div class="vintage-card heatmap-card">
+          <div class="card-header">
+            <h3 class="card-title font-display">Grid Tapestry</h3>
+            <p class="card-subtitle font-mono">A Year Woven in Contributions</p>
+          </div>
+          
+          <!-- Heatmap Container -->
+          <div class="heatmap-container" id="heatmap-container">
+            <!-- Month labels -->
+            <div class="heatmap-months" id="heatmap-months" aria-hidden="true"></div>
+            <!-- Day labels -->
+            <div class="heatmap-days" aria-hidden="true">
+              <span>Mon</span>
+              <span>Wed</span>
+              <span>Fri</span>
+            </div>
+            <!-- Grid -->
+            <div class="heatmap-grid" id="heatmap-grid" role="img" aria-label="Contribution heatmap for 2025"></div>
+          </div>
+          
+          <!-- Legend -->
+          <div class="heatmap-legend">
+            <span class="legend-label font-mono">Less</span>
+            <div class="legend-scale">
+              <span class="legend-cell level-0"></span>
+              <span class="legend-cell level-1"></span>
+              <span class="legend-cell level-2"></span>
+              <span class="legend-cell level-3"></span>
+              <span class="legend-cell level-4"></span>
+            </div>
+            <span class="legend-label font-mono">More</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 5: Composition Ledger (Activity Breakdown Pie Chart)
+         ======================================== -->
+    <section class="slide" id="slide-composition" data-slide="4" aria-label="Activity Composition">
+      <div class="slide-content">
+        <div class="vintage-card ledger-card">
+          <div class="card-header">
+            <h3 class="card-title font-display">Composition Ledger</h3>
+            <p class="card-subtitle font-mono">The Anatomy of Your Activity</p>
+          </div>
+          
+          <div class="composition-layout">
+            <!-- Pie Chart -->
+            <div class="chart-container pie-container">
+              <canvas id="composition-chart" aria-label="Activity breakdown pie chart" role="img"></canvas>
+            </div>
+            
+            <!-- Legend / Breakdown -->
+            <div class="composition-legend">
+              <div class="legend-item" data-type="commits">
+                <span class="legend-color commits"></span>
+                <span class="legend-name font-mono">Commits</span>
+                <span class="legend-value font-display" id="commits-count">0</span>
+                <span class="legend-percent font-mono" id="commits-percent">0%</span>
+              </div>
+              <div class="legend-item" data-type="prs">
+                <span class="legend-color prs"></span>
+                <span class="legend-name font-mono">Pull Requests</span>
+                <span class="legend-value font-display" id="prs-count">0</span>
+                <span class="legend-percent font-mono" id="prs-percent">0%</span>
+              </div>
+              <div class="legend-item" data-type="issues">
+                <span class="legend-color issues"></span>
+                <span class="legend-name font-mono">Issues</span>
+                <span class="legend-value font-display" id="issues-count">0</span>
+                <span class="legend-percent font-mono" id="issues-percent">0%</span>
+              </div>
+              <div class="legend-item" data-type="reviews">
+                <span class="legend-color reviews"></span>
+                <span class="legend-name font-mono">Code Reviews</span>
+                <span class="legend-value font-display" id="reviews-count">0</span>
+                <span class="legend-percent font-mono" id="reviews-percent">0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 6: Daily Routine (Hourly Activity Bar Chart)
+         ======================================== -->
+    <section class="slide" id="slide-routine" data-slide="5" aria-label="Daily Routine">
+      <div class="slide-content">
+        <div class="vintage-card routine-card">
+          <div class="card-header">
+            <h3 class="card-title font-display">Daily Routine</h3>
+            <p class="card-subtitle font-mono">When The Code Flows</p>
+          </div>
+          
+          <!-- Bar Chart -->
+          <div class="chart-container bar-container">
+            <canvas id="hourly-chart" aria-label="Hourly activity bar chart" role="img"></canvas>
+          </div>
+          
+          <!-- Stats -->
+          <div class="stat-grid routine-stats">
+            <div class="stat-item">
+              <span class="stat-number" id="peak-hour">--</span>
+              <span class="stat-label">Peak Hour</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="busiest-day">--</span>
+              <span class="stat-label">Busiest Day</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 7: Productivity Hours (Time of Day Analysis)
+         ======================================== -->
+    <section class="slide" id="slide-productivity" data-slide="6" aria-label="Productivity Hours">
+      <div class="slide-content">
+        <div class="vintage-card productivity-card">
+          <div class="card-header">
+            <h3 class="card-title font-display">Productivity Hours</h3>
+            <p class="card-subtitle font-mono">Your Coding Clock</p>
+          </div>
+          
+          <!-- Clock Visualization -->
+          <div class="clock-container">
+            <div class="vintage-clock" id="vintage-clock">
+              <div class="clock-face">
+                <div class="clock-segment morning" id="seg-morning">
+                  <span class="segment-label">Morning</span>
+                </div>
+                <div class="clock-segment afternoon" id="seg-afternoon">
+                  <span class="segment-label">Afternoon</span>
+                </div>
+                <div class="clock-segment evening" id="seg-evening">
+                  <span class="segment-label">Evening</span>
+                </div>
+                <div class="clock-segment night" id="seg-night">
+                  <span class="segment-label">Night</span>
+                </div>
+                <div class="clock-center">
+                  <span class="persona-emoji" id="persona-emoji">🔧</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Persona Display -->
+          <div class="persona-display">
+            <h4 class="persona-title font-display" id="persona-name">The Tinkerer</h4>
+            <p class="persona-description font-mono" id="persona-desc">Curious explorer of code</p>
+          </div>
+          
+          <!-- Time Breakdown -->
+          <div class="time-breakdown">
+            <div class="time-item">
+              <span class="time-icon">🌅</span>
+              <span class="time-label font-mono">Morning (6AM-12PM)</span>
+              <span class="time-value font-display" id="morning-percent">0%</span>
+            </div>
+            <div class="time-item">
+              <span class="time-icon">☀️</span>
+              <span class="time-label font-mono">Afternoon (12PM-6PM)</span>
+              <span class="time-value font-display" id="afternoon-percent">0%</span>
+            </div>
+            <div class="time-item">
+              <span class="time-icon">🌆</span>
+              <span class="time-label font-mono">Evening (6PM-10PM)</span>
+              <span class="time-value font-display" id="evening-percent">0%</span>
+            </div>
+            <div class="time-item">
+              <span class="time-icon">🌙</span>
+              <span class="time-label font-mono">Night (10PM-6AM)</span>
+              <span class="time-value font-display" id="night-percent">0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 8: Community Standing (Social Stats)
+         ======================================== -->
+    <section class="slide" id="slide-community" data-slide="7" aria-label="Community Standing">
+      <div class="slide-content">
+        <div class="vintage-card community-card">
+          <div class="card-header">
+            <h3 class="card-title font-display">Community Standing</h3>
+            <p class="card-subtitle font-mono">Your Place in the Developer World</p>
+          </div>
+          
+          <!-- Social Register Style -->
+          <div class="social-register">
+            <div class="register-item">
+              <div class="register-icon">
+                <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"/>
+                </svg>
+              </div>
+              <div class="register-content">
+                <span class="register-value font-display" id="followers-count">0</span>
+                <span class="register-label font-mono">Followers</span>
+              </div>
+            </div>
+            
+            <div class="register-item">
+              <div class="register-icon">
+                <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
+                </svg>
+              </div>
+              <div class="register-content">
+                <span class="register-value font-display" id="total-stars">0</span>
+                <span class="register-label font-mono">Stars Earned</span>
+              </div>
+            </div>
+            
+            <div class="register-item">
+              <div class="register-icon">
+                <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8z"/>
+                </svg>
+              </div>
+              <div class="register-content">
+                <span class="register-value font-display" id="public-repos">0</span>
+                <span class="register-label font-mono">Public Repositories</span>
+              </div>
+            </div>
+            
+            <div class="register-item">
+              <div class="register-icon">
+                <svg width="32" height="32" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-.878a2.25 2.25 0 111.5 0v.878a2.25 2.25 0 01-2.25 2.25h-1.5v2.128a2.251 2.251 0 11-1.5 0V8.5h-1.5A2.25 2.25 0 013.5 6.25v-.878a2.25 2.25 0 111.5 0zM5 3.25a.75.75 0 10-1.5 0 .75.75 0 001.5 0zm6.75.75a.75.75 0 100-1.5.75.75 0 000 1.5zm-3 8.75a.75.75 0 10-1.5 0 .75.75 0 001.5 0z"/>
+                </svg>
+              </div>
+              <div class="register-content">
+                <span class="register-value font-display" id="total-forks">0</span>
+                <span class="register-label font-mono">Times Forked</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 9: Language Portfolio (Programming Languages)
+         ======================================== -->
+    <section class="slide" id="slide-languages" data-slide="8" aria-label="Language Portfolio">
+      <div class="slide-content">
+        <div class="vintage-card languages-card">
+          <div class="card-header">
+            <h3 class="card-title font-display">Language Portfolio</h3>
+            <p class="card-subtitle font-mono">Your Polyglot Profile</p>
+          </div>
+          
+          <!-- Language Bars -->
+          <div class="language-list" id="language-list">
+            <!-- Filled by JS -->
+          </div>
+          
+          <!-- Diversity Score -->
+          <div class="diversity-score">
+            <span class="diversity-label font-mono">Language Diversity</span>
+            <span class="diversity-value font-display" id="language-count">0</span>
+            <span class="diversity-suffix font-mono">languages</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 10: Top 5 Repositories
+         ======================================== -->
+    <section class="slide" id="slide-top-repos" data-slide="9" aria-label="Top Repositories">
+      <div class="slide-content">
+        <div class="vintage-card repos-card">
+          <div class="card-header">
+            <h3 class="card-title font-display">Top 5 Repositories</h3>
+            <p class="card-subtitle font-mono">Your Greatest Works of 2025</p>
+          </div>
+          
+          <!-- Repository Cards -->
+          <div class="repo-catalog" id="repo-catalog">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 11: Featured Repository (Spotlight)
+         ======================================== -->
+    <section class="slide" id="slide-featured" data-slide="10" aria-label="Featured Repository">
+      <div class="slide-content">
+        <div class="featured-spotlight">
+          <div class="spotlight-header">
+            <span class="spotlight-badge font-mono">★ FEATURED PROJECT ★</span>
+            <h3 class="spotlight-title font-display" id="featured-name">Repository Name</h3>
+          </div>
+          
+          <div class="spotlight-poster">
+            <div class="poster-frame">
+              <div class="poster-content">
+                <div class="poster-language" id="featured-language">JavaScript</div>
+                <p class="poster-description font-mono" id="featured-description">
+                  Repository description goes here...
+                </p>
+                
+                <div class="poster-stats">
+                  <div class="poster-stat">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
+                    </svg>
+                    <span id="featured-stars">0</span>
+                  </div>
+                  <div class="poster-stat">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75v-.878a2.25 2.25 0 111.5 0v.878a2.25 2.25 0 01-2.25 2.25h-1.5v2.128a2.251 2.251 0 11-1.5 0V8.5h-1.5A2.25 2.25 0 013.5 6.25v-.878a2.25 2.25 0 111.5 0zM5 3.25a.75.75 0 10-1.5 0 .75.75 0 001.5 0zm6.75.75a.75.75 0 100-1.5.75.75 0 000 1.5zm-3 8.75a.75.75 0 10-1.5 0 .75.75 0 001.5 0z"/>
+                    </svg>
+                    <span id="featured-forks">0</span>
+                  </div>
+                  <div class="poster-stat">
+                    <span class="score-label">Score</span>
+                    <span class="score-value" id="featured-score">0</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <a href="#" class="vintage-btn spotlight-link" id="featured-link" target="_blank" rel="noopener">
+            View on GitHub
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M3.75 2h3.5a.75.75 0 010 1.5h-2.69l5.72 5.72a.75.75 0 11-1.06 1.06L3.5 4.56v2.69a.75.75 0 01-1.5 0v-3.5A.75.75 0 012.75 3h1z"/>
+              <path d="M6.25 7.5a.75.75 0 000 1.5h5.5v5.25a.75.75 0 001.5 0v-6a.75.75 0 00-.75-.75h-6.25z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         SLIDE 12: Grand Finale
+         ======================================== -->
+    <section class="slide" id="slide-finale" data-slide="11" aria-label="Grand Finale">
+      <div class="slide-content finale-content">
+        <div class="finale-header">
+          <h2 class="finale-title font-display">That's a Wrap!</h2>
+          <p class="finale-subtitle font-mono">Your 2025 GitHub Story</p>
+        </div>
+        
+        <!-- Summary Stats -->
+        <div class="finale-summary">
+          <div class="summary-stat">
+            <span class="summary-value font-display" id="finale-contributions">0</span>
+            <span class="summary-label font-mono">Contributions</span>
+          </div>
+          <div class="summary-stat">
+            <span class="summary-value font-display" id="finale-repos">0</span>
+            <span class="summary-label font-mono">Repositories</span>
+          </div>
+          <div class="summary-stat">
+            <span class="summary-value font-display" id="finale-streak">0</span>
+            <span class="summary-label font-mono">Best Streak</span>
+          </div>
+        </div>
+        
+        <!-- Persona Badge -->
+        <div class="finale-persona">
+          <span class="persona-badge-large" id="finale-persona-emoji">🔧</span>
+          <span class="persona-badge-name font-display" id="finale-persona-name">The Tinkerer</span>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="finale-actions">
+          <button class="vintage-btn" id="btn-download-poster">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
+            </svg>
+            Download Poster
+          </button>
+          
+          <button class="vintage-btn vintage-btn-secondary" id="btn-share">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M15 14c-.988 0-1.875.422-2.5 1.088L8.207 12.5a3.5 3.5 0 000-1L12.5 8.912A3.5 3.5 0 1012.5 7.5a3.5 3.5 0 00.207 1.088L8.5 11.088A3.5 3.5 0 106 12.5c0-.375.063-.735.176-1.073L10.293 14a3.5 3.5 0 00-.293 1.5 3.5 3.5 0 105 0z"/>
+            </svg>
+            Share Story
+          </button>
+          
+          <button class="vintage-btn vintage-btn-secondary" id="btn-restart">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 3v2a5 5 0 11-4.546 7.066l-1.732 1a7 7 0 101.506-6.338L4 6V3H1v5.5h5V6.168A5 5 0 0110 3z"/>
+            </svg>
+            New Story
+          </button>
+        </div>
+        
+        <!-- Credits -->
+        <div class="finale-credits font-mono">
+          <p>Made with 💜 by GitStory</p>
+          <p class="credits-year">— 2025 —</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- ========================================
+         Loading Overlay
+         ======================================== -->
+    <div id="loading-overlay" class="loading-overlay" hidden aria-hidden="true">
+      <div class="loading-content">
+        <div class="loading-film" aria-hidden="true"></div>
+        <p class="loading-text font-mono">Loading your story...</p>
+        <p class="loading-status font-mono" id="loading-status">Fetching GitHub data</p>
+      </div>
+    </div>
+    
+  </main>
+  
+  <!-- ========================================
+       Navigation Controls
+       ======================================== -->
+  <nav class="nav-controls" id="nav-controls" aria-label="Slide navigation" hidden>
+    <!-- Previous -->
+    <button class="nav-btn" id="btn-prev" aria-label="Previous slide" disabled>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    
+    <!-- Play/Pause -->
+    <button class="nav-btn" id="btn-play" aria-label="Pause auto-advance">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" id="icon-pause">
+        <rect x="6" y="4" width="4" height="16"></rect>
+        <rect x="14" y="4" width="4" height="16"></rect>
+      </svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" id="icon-play" hidden>
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+    </button>
+    
+    <!-- Next -->
+    <button class="nav-btn" id="btn-next" aria-label="Next slide">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+    
+    <!-- Fullscreen -->
+    <button class="nav-btn" id="btn-fullscreen" aria-label="Toggle fullscreen">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <polyline points="9 21 3 21 3 15"></polyline>
+        <line x1="21" y1="3" x2="14" y2="10"></line>
+        <line x1="3" y1="21" x2="10" y2="14"></line>
+      </svg>
+    </button>
+  </nav>
+  
+  <!-- Slide Progress Bar -->
+  <div class="slide-progress" id="slide-progress" style="width: 0%;" aria-hidden="true"></div>
+  
+  <!-- Slide Counter -->
+  <div class="slide-counter font-mono" id="slide-counter" hidden>
+    <span id="current-slide">1</span> / <span id="total-slides">12</span>
+  </div>
+  
+  <!-- JavaScript Modules -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

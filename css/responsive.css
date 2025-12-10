@@ -1,0 +1,745 @@
+/*
+ * GitStory 2025 - Responsive Styles
+ * 
+ * Desktop-first responsive design with
+ * mobile support for touch controls.
+ */
+
+/* ============================================
+   Welcome Slide Styles
+   ============================================ */
+.welcome-logo {
+  margin-bottom: var(--space-xl);
+}
+
+.welcome-logo svg {
+  filter: drop-shadow(0 4px 12px var(--vintage-shadow));
+}
+
+.welcome-title {
+  font-size: var(--text-5xl);
+  color: var(--vintage-gold);
+  text-shadow: 
+    2px 2px 0 var(--vintage-dark),
+    4px 4px 8px var(--vintage-shadow);
+  margin-bottom: var(--space-sm);
+}
+
+.welcome-subtitle {
+  font-size: var(--text-lg);
+  color: var(--vintage-light);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2xl);
+}
+
+.welcome-description {
+  font-size: var(--text-lg);
+  color: var(--vintage-cream);
+  max-width: 500px;
+  margin: 0 auto var(--space-2xl);
+  line-height: 1.8;
+}
+
+/* Form Styles */
+.welcome-form {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: var(--space-lg);
+  text-align: left;
+}
+
+.form-label {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--vintage-light);
+  margin-bottom: var(--space-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-prefix {
+  position: absolute;
+  left: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--vintage-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+}
+
+.input-wrapper .vintage-input {
+  padding-left: calc(var(--space-lg) + 16px);
+}
+
+.form-hint {
+  font-size: var(--text-xs);
+  color: var(--vintage-gray);
+  margin-top: var(--space-xs);
+  opacity: 0.8;
+}
+
+/* Token Group */
+.token-group {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px dashed var(--vintage-secondary);
+}
+
+.token-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.optional-badge {
+  display: inline-block;
+  font-size: var(--text-xs);
+  padding: 2px 8px;
+  background: var(--vintage-secondary);
+  color: var(--vintage-cream);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: 1px solid var(--vintage-secondary);
+  border-radius: 50%;
+  color: var(--vintage-light);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.info-btn:hover {
+  background: var(--vintage-secondary);
+  color: var(--vintage-cream);
+}
+
+/* Play Button */
+.play-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  margin-top: var(--space-xl);
+  padding: var(--space-lg) var(--space-xl);
+  font-size: var(--text-xl);
+}
+
+.play-btn svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Error Message */
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  margin-top: var(--space-lg);
+  background: rgba(180, 60, 60, 0.2);
+  border: 1px solid #b43c3c;
+  border-radius: var(--radius-sm);
+  color: #ff8080;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.error-message svg {
+  flex-shrink: 0;
+}
+
+/* ============================================
+   Title Card Slide Styles
+   ============================================ */
+.title-card {
+  position: relative;
+}
+
+.film-frame {
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  right: -40px;
+  bottom: -40px;
+  pointer-events: none;
+}
+
+.frame-corner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 3px solid var(--vintage-gold);
+}
+
+.frame-corner.top-left {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.frame-corner.top-right {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+
+.frame-corner.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+}
+
+.frame-corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+.title-avatar {
+  margin-bottom: var(--space-xl);
+}
+
+.title-username {
+  font-size: var(--text-5xl);
+  margin-bottom: var(--space-md);
+}
+
+.title-tagline {
+  font-size: var(--text-lg);
+  color: var(--vintage-light);
+  max-width: 600px;
+  margin: 0 auto var(--space-xl);
+  font-style: italic;
+}
+
+.title-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--vintage-cream);
+}
+
+.detail-item svg {
+  color: var(--vintage-accent);
+}
+
+.year-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md) var(--space-xl);
+  background: linear-gradient(135deg, var(--vintage-secondary), var(--vintage-gold));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.year-number {
+  font-size: var(--text-3xl);
+  color: var(--vintage-dark);
+  letter-spacing: 0.1em;
+}
+
+/* ============================================
+   Velocity Slide Styles
+   ============================================ */
+.velocity-card {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.card-header {
+  margin-bottom: var(--space-xl);
+}
+
+.card-title {
+  font-size: var(--text-3xl);
+  color: var(--vintage-gold);
+  margin-bottom: var(--space-sm);
+}
+
+.card-subtitle {
+  font-size: var(--text-base);
+  color: var(--vintage-gray);
+  letter-spacing: 0.1em;
+}
+
+.chart-container {
+  width: 100%;
+  margin-bottom: var(--space-xl);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-inset);
+}
+
+.chart-container canvas {
+  display: block;
+  width: 100%;
+}
+
+.velocity-stats {
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--vintage-secondary);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+/* ============================================
+   Heatmap Slide Styles
+   ============================================ */
+.heatmap-card {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.heatmap-container {
+  position: relative;
+  padding: var(--space-xl) var(--space-md);
+  overflow-x: auto;
+}
+
+.heatmap-months {
+  display: flex;
+  position: relative;
+  height: 20px;
+  margin-bottom: var(--space-sm);
+  padding-left: 30px;
+}
+
+.month-label {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--vintage-light);
+}
+
+.heatmap-days {
+  position: absolute;
+  left: 0;
+  top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--vintage-light);
+}
+
+.heatmap-grid {
+  display: flex;
+  gap: 2px;
+  padding-left: 30px;
+}
+
+.heatmap-week {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.heatmap-cell {
+  border-radius: 2px;
+  transition: transform var(--transition-fast);
+  cursor: pointer;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.3);
+  z-index: 10;
+}
+
+.heatmap-cell.level-0 { background-color: var(--contrib-level-0); }
+.heatmap-cell.level-1 { background-color: var(--contrib-level-1); }
+.heatmap-cell.level-2 { background-color: var(--contrib-level-2); }
+.heatmap-cell.level-3 { background-color: var(--contrib-level-3); }
+.heatmap-cell.level-4 { background-color: var(--contrib-level-4); }
+
+.heatmap-cell.outside-year {
+  opacity: 0.3;
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  padding-right: var(--space-md);
+}
+
+.legend-label {
+  font-size: var(--text-xs);
+  color: var(--vintage-light);
+}
+
+.legend-scale {
+  display: flex;
+  gap: 3px;
+}
+
+.legend-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-cell.level-0 { background-color: var(--contrib-level-0); }
+.legend-cell.level-1 { background-color: var(--contrib-level-1); }
+.legend-cell.level-2 { background-color: var(--contrib-level-2); }
+.legend-cell.level-3 { background-color: var(--contrib-level-3); }
+.legend-cell.level-4 { background-color: var(--contrib-level-4); }
+
+/* ============================================
+   Loading Overlay Styles
+   ============================================ */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(26, 15, 8, 0.95);
+  z-index: 9999;
+}
+
+/* Properly hide when hidden attribute is set */
+.loading-overlay[hidden] {
+  display: none !important;
+}
+
+.loading-content {
+  text-align: center;
+}
+
+.loading-status {
+  color: var(--vintage-accent);
+  font-size: var(--text-sm);
+  margin-top: var(--space-sm);
+}
+
+/* ============================================
+   Slide Counter Styles
+   ============================================ */
+.slide-counter {
+  position: fixed;
+  bottom: var(--space-xl);
+  right: var(--space-xl);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(44, 24, 16, 0.9);
+  border: 1px solid var(--vintage-secondary);
+  border-radius: var(--radius-sm);
+  color: var(--vintage-cream);
+  font-size: var(--text-sm);
+  z-index: var(--z-modal);
+}
+
+/* ============================================
+   Desktop Breakpoints (1440px+)
+   ============================================ */
+@media (min-width: 1440px) {
+  .slide-content {
+    max-width: 1400px;
+  }
+  
+  .velocity-card,
+  .heatmap-card {
+    max-width: 1100px;
+  }
+  
+  .welcome-title {
+    font-size: 5rem;
+  }
+}
+
+/* ============================================
+   Laptop Breakpoint (1024px - 1439px)
+   ============================================ */
+@media (max-width: 1439px) and (min-width: 1024px) {
+  .slide {
+    padding: var(--space-xl);
+  }
+  
+  .velocity-card,
+  .heatmap-card {
+    max-width: 800px;
+  }
+}
+
+/* ============================================
+   Tablet Breakpoint (768px - 1023px)
+   ============================================ */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .slide {
+    padding: var(--space-lg);
+  }
+  
+  .welcome-title {
+    font-size: var(--text-4xl);
+  }
+  
+  .title-username {
+    font-size: var(--text-4xl);
+  }
+  
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .heatmap-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .nav-controls {
+    bottom: var(--space-lg);
+  }
+}
+
+/* ============================================
+   Mobile Breakpoint (< 768px)
+   ============================================ */
+@media (max-width: 767px) {
+  .slide {
+    padding: var(--space-md);
+  }
+  
+  .welcome-title {
+    font-size: var(--text-3xl);
+  }
+  
+  .welcome-subtitle {
+    font-size: var(--text-base);
+    letter-spacing: 0.15em;
+  }
+  
+  .welcome-description {
+    font-size: var(--text-base);
+  }
+  
+  .welcome-form {
+    max-width: 100%;
+    padding: 0 var(--space-sm);
+  }
+  
+  .title-username {
+    font-size: var(--text-3xl);
+  }
+  
+  .title-details {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+  
+  .film-frame {
+    display: none;
+  }
+  
+  .vintage-avatar {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .card-title {
+    font-size: var(--text-2xl);
+  }
+  
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+  
+  .stat-number {
+    font-size: var(--text-2xl);
+  }
+  
+  .heatmap-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: var(--space-md) 0;
+  }
+  
+  .heatmap-cell {
+    width: 10px !important;
+    height: 10px !important;
+  }
+  
+  .nav-controls {
+    bottom: var(--space-md);
+    gap: var(--space-sm);
+  }
+  
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .slide-counter {
+    bottom: var(--space-md);
+    right: var(--space-md);
+    font-size: var(--text-xs);
+  }
+  
+  /* Hide curtains on mobile for performance */
+  .curtain-left,
+  .curtain-right {
+    display: none;
+  }
+}
+
+/* ============================================
+   Small Mobile (< 375px)
+   ============================================ */
+@media (max-width: 374px) {
+  .welcome-title {
+    font-size: var(--text-2xl);
+  }
+  
+  .welcome-logo svg {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .play-btn {
+    padding: var(--space-md);
+    font-size: var(--text-lg);
+  }
+}
+
+/* ============================================
+   Landscape Mobile
+   ============================================ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .slide {
+    padding: var(--space-sm) var(--space-lg);
+  }
+  
+  .welcome-logo {
+    margin-bottom: var(--space-md);
+  }
+  
+  .welcome-logo svg {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .welcome-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .welcome-description {
+    display: none;
+  }
+  
+  .welcome-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    max-width: 600px;
+  }
+  
+  .token-group {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+  
+  .play-btn {
+    grid-column: span 2;
+    margin-top: var(--space-md);
+  }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+  .nav-controls,
+  .slide-counter,
+  .slide-progress,
+  .loading-overlay,
+  .curtain-left,
+  .curtain-right {
+    display: none !important;
+  }
+  
+  .slide {
+    position: relative !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    page-break-after: always;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+}
+
+/* ============================================
+   High Contrast Mode
+   ============================================ */
+@media (prefers-contrast: high) {
+  :root {
+    --vintage-cream: #ffffff;
+    --vintage-gold: #ffd700;
+    --vintage-dark: #000000;
+  }
+  
+  .vintage-input {
+    border-width: 3px;
+  }
+  
+  .heatmap-cell {
+    border: 1px solid var(--vintage-cream);
+  }
+}
+
+/* ============================================
+   Dark Mode Preference (already dark theme)
+   ============================================ */
+@media (prefers-color-scheme: light) {
+  /* Keep the vintage dark theme regardless of system preference */
+  /* The app is designed to be dark/vintage always */
+}
