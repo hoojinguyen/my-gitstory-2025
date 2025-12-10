@@ -13,21 +13,22 @@
 }
 
 .welcome-logo svg {
-  filter: drop-shadow(0 4px 12px var(--vintage-shadow));
+  filter: drop-shadow(0 4px 20px rgba(102, 126, 234, 0.4));
 }
 
 .welcome-title {
   font-size: var(--text-5xl);
-  color: var(--vintage-gold);
-  text-shadow: 
-    2px 2px 0 var(--vintage-dark),
-    4px 4px 8px var(--vintage-shadow);
+  background: linear-gradient(135deg, var(--aurora-1), var(--aurora-2), var(--aurora-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
   margin-bottom: var(--space-sm);
 }
 
 .welcome-subtitle {
   font-size: var(--text-lg);
-  color: var(--vintage-light);
+  color: var(--text-secondary);
   letter-spacing: 0.3em;
   text-transform: uppercase;
   margin-bottom: var(--space-2xl);
@@ -35,7 +36,7 @@
 
 .welcome-description {
   font-size: var(--text-lg);
-  color: var(--vintage-cream);
+  color: var(--text-secondary);
   max-width: 500px;
   margin: 0 auto var(--space-2xl);
   line-height: 1.8;
@@ -55,7 +56,7 @@
 .form-label {
   display: block;
   font-size: var(--text-sm);
-  color: var(--vintage-light);
+  color: var(--text-secondary);
   margin-bottom: var(--space-sm);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -70,18 +71,18 @@
   left: var(--space-md);
   top: 50%;
   transform: translateY(-50%);
-  color: var(--vintage-secondary);
+  color: var(--aurora-1);
   font-family: var(--font-mono);
   font-size: var(--text-lg);
 }
 
-.input-wrapper .vintage-input {
+.input-wrapper .modern-input {
   padding-left: calc(var(--space-lg) + 16px);
 }
 
 .form-hint {
   font-size: var(--text-xs);
-  color: var(--vintage-gray);
+  color: var(--text-muted);
   margin-top: var(--space-xs);
   opacity: 0.8;
 }
@@ -90,7 +91,7 @@
 .token-group {
   margin-top: var(--space-xl);
   padding-top: var(--space-lg);
-  border-top: 1px dashed var(--vintage-secondary);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .token-header {
@@ -104,9 +105,9 @@
   display: inline-block;
   font-size: var(--text-xs);
   padding: 2px 8px;
-  background: var(--vintage-secondary);
-  color: var(--vintage-cream);
-  border-radius: var(--radius-sm);
+  background: var(--aurora-1);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -118,16 +119,17 @@
   width: 20px;
   height: 20px;
   background: transparent;
-  border: 1px solid var(--vintage-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  color: var(--vintage-light);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .info-btn:hover {
-  background: var(--vintage-secondary);
-  color: var(--vintage-cream);
+  background: var(--aurora-1);
+  color: var(--text-primary);
+  border-color: var(--aurora-1);
 }
 
 /* Play Button */
@@ -154,12 +156,13 @@
   gap: var(--space-sm);
   padding: var(--space-md);
   margin-top: var(--space-lg);
-  background: rgba(180, 60, 60, 0.2);
-  border: 1px solid #b43c3c;
-  border-radius: var(--radius-sm);
+  background: rgba(245, 87, 108, 0.1);
+  border: 1px solid rgba(245, 87, 108, 0.5);
+  border-radius: var(--radius-md);
   color: #ff8080;
   font-family: var(--font-mono);
   font-size: var(--text-sm);
+  backdrop-filter: blur(10px);
 }
 
 .error-message svg {
@@ -186,7 +189,7 @@
   position: absolute;
   width: 60px;
   height: 60px;
-  border: 3px solid var(--vintage-gold);
+  border: 3px solid var(--aurora-1);
 }
 
 .frame-corner.top-left {
@@ -228,7 +231,7 @@
 
 .title-tagline {
   font-size: var(--text-lg);
-  color: var(--vintage-light);
+  color: var(--text-secondary);
   max-width: 600px;
   margin: 0 auto var(--space-xl);
   font-style: italic;
@@ -248,11 +251,11 @@
   gap: var(--space-sm);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  color: var(--vintage-cream);
+  color: var(--text-primary);
 }
 
 .detail-item svg {
-  color: var(--vintage-accent);
+  color: var(--aurora-2);
 }
 
 .year-badge {
@@ -260,14 +263,14 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-md) var(--space-xl);
-  background: linear-gradient(135deg, var(--vintage-secondary), var(--vintage-gold));
+  background: linear-gradient(135deg, var(--aurora-1), var(--aurora-2));
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
 }
 
 .year-number {
   font-size: var(--text-3xl);
-  color: var(--vintage-dark);
+  color: var(--text-primary);
   letter-spacing: 0.1em;
 }
 
@@ -285,13 +288,13 @@
 
 .card-title {
   font-size: var(--text-3xl);
-  color: var(--vintage-gold);
+  color: var(--aurora-1);
   margin-bottom: var(--space-sm);
 }
 
 .card-subtitle {
   font-size: var(--text-base);
-  color: var(--vintage-gray);
+  color: var(--text-muted);
   letter-spacing: 0.1em;
 }
 
@@ -310,7 +313,7 @@
 
 .velocity-stats {
   padding-top: var(--space-lg);
-  border-top: 1px solid var(--vintage-secondary);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .stat-item {
@@ -343,7 +346,7 @@
   position: absolute;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--vintage-light);
+  color: var(--text-secondary);
 }
 
 .heatmap-days {
@@ -355,7 +358,7 @@
   gap: 26px;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--vintage-light);
+  color: var(--text-secondary);
 }
 
 .heatmap-grid {
@@ -385,7 +388,10 @@
 .heatmap-cell.level-1 { background-color: var(--contrib-level-1); }
 .heatmap-cell.level-2 { background-color: var(--contrib-level-2); }
 .heatmap-cell.level-3 { background-color: var(--contrib-level-3); }
-.heatmap-cell.level-4 { background-color: var(--contrib-level-4); }
+.heatmap-cell.level-4 { 
+  background-color: var(--contrib-level-4); 
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
 
 .heatmap-cell.outside-year {
   opacity: 0.3;
@@ -402,7 +408,7 @@
 
 .legend-label {
   font-size: var(--text-xs);
-  color: var(--vintage-light);
+  color: var(--text-secondary);
 }
 
 .legend-scale {
@@ -434,7 +440,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(26, 15, 8, 0.95);
+  background: rgba(15, 15, 35, 0.95);
   z-index: 9999;
 }
 
@@ -448,26 +454,12 @@
 }
 
 .loading-status {
-  color: var(--vintage-accent);
+  color: var(--aurora-2);
   font-size: var(--text-sm);
   margin-top: var(--space-sm);
 }
 
-/* ============================================
-   Slide Counter Styles
-   ============================================ */
-.slide-counter {
-  position: fixed;
-  bottom: var(--space-xl);
-  right: var(--space-xl);
-  padding: var(--space-sm) var(--space-md);
-  background: rgba(44, 24, 16, 0.9);
-  border: 1px solid var(--vintage-secondary);
-  border-radius: var(--radius-sm);
-  color: var(--vintage-cream);
-  font-size: var(--text-sm);
-  z-index: var(--z-modal);
-}
+/* Slide counter base styles are in modern-theme.css */
 
 /* ============================================
    Desktop Breakpoints (1440px+)
@@ -571,7 +563,7 @@
     display: none;
   }
   
-  .vintage-avatar {
+  .aurora-avatar {
     width: 120px;
     height: 120px;
   }
@@ -722,24 +714,24 @@
    ============================================ */
 @media (prefers-contrast: high) {
   :root {
-    --vintage-cream: #ffffff;
-    --vintage-gold: #ffd700;
-    --vintage-dark: #000000;
+    --text-primary: #ffffff;
+    --aurora-1: #ffd700;
+    --bg-primary: #000000;
   }
   
-  .vintage-input {
+  .aurora-input {
     border-width: 3px;
   }
   
   .heatmap-cell {
-    border: 1px solid var(--vintage-cream);
+    border: 1px solid var(--text-primary);
   }
 }
 
 /* ============================================
-   Dark Mode Preference (already dark theme)
+   Dark Mode Preference (always dark theme)
    ============================================ */
 @media (prefers-color-scheme: light) {
-  /* Keep the vintage dark theme regardless of system preference */
-  /* The app is designed to be dark/vintage always */
+  /* Keep the aurora dark theme regardless of system preference */
+  /* The app is designed to be dark/aurora always */
 }

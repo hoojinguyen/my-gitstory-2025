@@ -3,38 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="GitStory 2025 - A vintage cinematic experience that transforms your GitHub contributions into a film-noir style journey through your year in code.">
-  <meta name="theme-color" content="#1a0f08">
+  <meta name="description" content="GitStory 2025 - A modern, vibrant experience that transforms your GitHub contributions into an aurora-lit journey through your year in code.">
+  <meta name="theme-color" content="#0f0f23">
   
   <!-- Open Graph / Social -->
-  <meta property="og:title" content="GitStory 2025 - Vintage Cinema Edition">
-  <meta property="og:description" content="Transform your GitHub contributions into a cinematic journey">
+  <meta property="og:title" content="GitStory 2025 - Aurora Edition">
+  <meta property="og:description" content="Transform your GitHub contributions into a stunning visual journey">
   <meta property="og:type" content="website">
   
-  <title>GitStory 2025 - Vintage Cinema Edition</title>
+  <title>GitStory 2025 - Aurora Edition</title>
   
   <!-- Preconnect to Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
-  <!-- Google Fonts: Playfair Display, Bebas Neue, Courier Prime -->
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Space Grotesk, DM Sans, Fira Code -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/vintage-theme.css">
+  <link rel="stylesheet" href="css/modern-theme.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/responsive.css">
   
-  <!-- Favicon (vintage film reel) -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+  <!-- Favicon (rocket emoji for modern feel) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 </head>
-<body class="film-grain vignette">
+<body class="aurora-bg">
   <!-- Skip Link for Accessibility -->
   <a href="#main-content" class="sr-only" id="skip-link">Skip to main content</a>
   
-  <!-- Film Curtains (opening animation) -->
-  <div class="curtain-left" aria-hidden="true"></div>
-  <div class="curtain-right" aria-hidden="true"></div>
+  <!-- Aurora Glow Effects -->
+  <div class="aurora-glow aurora-glow-1" aria-hidden="true"></div>
+  <div class="aurora-glow aurora-glow-2" aria-hidden="true"></div>
   
   <!-- Main Application Container -->
   <main id="main-content" class="slide-container" role="main">
@@ -44,42 +44,43 @@
          ======================================== -->
     <section class="slide active" id="slide-welcome" data-slide="0" aria-label="Welcome to GitStory">
       <div class="slide-content">
-        <!-- Vintage Film Logo -->
-        <div class="welcome-logo vintage-reveal">
+        <!-- Modern Aurora Logo -->
+        <div class="welcome-logo aurora-reveal">
           <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <!-- Film reel icon -->
-            <circle cx="60" cy="60" r="55" stroke="var(--vintage-gold)" stroke-width="3" fill="none"/>
-            <circle cx="60" cy="60" r="45" stroke="var(--vintage-secondary)" stroke-width="2" fill="none"/>
-            <circle cx="60" cy="60" r="15" fill="var(--vintage-gold)"/>
-            <!-- Sprocket holes -->
-            <circle cx="60" cy="20" r="6" fill="var(--vintage-secondary)"/>
-            <circle cx="60" cy="100" r="6" fill="var(--vintage-secondary)"/>
-            <circle cx="20" cy="60" r="6" fill="var(--vintage-secondary)"/>
-            <circle cx="100" cy="60" r="6" fill="var(--vintage-secondary)"/>
-            <!-- Diagonal sprockets -->
-            <circle cx="31" cy="31" r="5" fill="var(--vintage-secondary)" opacity="0.7"/>
-            <circle cx="89" cy="31" r="5" fill="var(--vintage-secondary)" opacity="0.7"/>
-            <circle cx="31" cy="89" r="5" fill="var(--vintage-secondary)" opacity="0.7"/>
-            <circle cx="89" cy="89" r="5" fill="var(--vintage-secondary)" opacity="0.7"/>
+            <!-- Modern rocket/code icon -->
+            <defs>
+              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#667eea"/>
+                <stop offset="50%" style="stop-color:#764ba2"/>
+                <stop offset="100%" style="stop-color:#f093fb"/>
+              </linearGradient>
+            </defs>
+            <circle cx="60" cy="60" r="55" stroke="url(#logoGradient)" stroke-width="3" fill="none"/>
+            <circle cx="60" cy="60" r="45" stroke="url(#logoGradient)" stroke-width="2" fill="none" opacity="0.5"/>
+            <!-- Code brackets -->
+            <path d="M40 45 L30 60 L40 75" stroke="url(#logoGradient)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M80 45 L90 60 L80 75" stroke="url(#logoGradient)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Star/sparkle in center -->
+            <circle cx="60" cy="60" r="8" fill="url(#logoGradient)"/>
           </svg>
         </div>
         
         <!-- Title -->
-        <h1 class="welcome-title vintage-reveal vintage-reveal-delay-1">
+        <h1 class="welcome-title aurora-reveal aurora-reveal-delay-1">
           GitStory
         </h1>
-        <p class="welcome-subtitle font-mono vintage-reveal vintage-reveal-delay-2">
-          — 2025 Vintage Cinema Edition —
+        <p class="welcome-subtitle font-mono aurora-reveal aurora-reveal-delay-2">
+          — 2025 Aurora Edition —
         </p>
         
         <!-- Description -->
-        <p class="welcome-description vintage-reveal vintage-reveal-delay-3">
-          Transform your GitHub contributions into a cinematic journey<br>
+        <p class="welcome-description aurora-reveal aurora-reveal-delay-3">
+          Transform your GitHub contributions into a stunning visual journey<br>
           through your year in code.
         </p>
         
         <!-- Input Form -->
-        <form id="github-form" class="welcome-form vintage-reveal vintage-reveal-delay-4" autocomplete="off">
+        <form id="github-form" class="welcome-form aurora-reveal aurora-reveal-delay-4" autocomplete="off">
           <div class="form-group">
             <label for="github-username" class="form-label font-mono">
               Enter Your GitHub Username
@@ -90,7 +91,7 @@
                 type="text" 
                 id="github-username" 
                 name="username"
-                class="vintage-input" 
+                class="modern-input" 
                 placeholder="hoojinguyen"
                 required
                 autocomplete="off"
@@ -127,7 +128,7 @@
               type="password" 
               id="github-token" 
               name="token"
-              class="vintage-input" 
+              class="modern-input" 
               placeholder="ghp_xxxxxxxxxxxx"
               autocomplete="off"
               aria-describedby="token-hint"
@@ -138,7 +139,7 @@
           </div>
           
           <!-- Submit Button -->
-          <button type="submit" class="vintage-btn play-btn" id="play-story-btn">
+          <button type="submit" class="gradient-btn play-btn" id="play-story-btn">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M8 5v14l11-7z"/>
             </svg>
@@ -170,10 +171,10 @@
         </div>
         
         <!-- User Avatar -->
-        <div class="title-avatar vintage-avatar-frame">
+        <div class="title-avatar aurora-avatar-frame">
           <img 
             id="user-avatar" 
-            class="vintage-avatar" 
+            class="aurora-avatar" 
             src="" 
             alt="GitHub avatar"
             loading="lazy"
@@ -225,7 +226,7 @@
     <section class="slide" id="slide-velocity" data-slide="2" aria-label="Contribution Velocity">
       <div class="slide-content">
         <!-- Paper texture card -->
-        <div class="vintage-card paper-texture velocity-card">
+        <div class="glass-card aurora-border velocity-card">
           <div class="card-header">
             <h3 class="card-title font-display">Velocity Chronicle</h3>
             <p class="card-subtitle font-mono">Your Contribution Journey Through 2025</p>
@@ -264,7 +265,7 @@
          ======================================== -->
     <section class="slide" id="slide-heatmap" data-slide="3" aria-label="Contribution Heatmap">
       <div class="slide-content">
-        <div class="vintage-card heatmap-card">
+        <div class="glass-card aurora-border heatmap-card">
           <div class="card-header">
             <h3 class="card-title font-display">Grid Tapestry</h3>
             <p class="card-subtitle font-mono">A Year Woven in Contributions</p>
@@ -305,7 +306,7 @@
          ======================================== -->
     <section class="slide" id="slide-composition" data-slide="4" aria-label="Activity Composition">
       <div class="slide-content">
-        <div class="vintage-card ledger-card">
+        <div class="glass-card aurora-border ledger-card">
           <div class="card-header">
             <h3 class="card-title font-display">Composition Ledger</h3>
             <p class="card-subtitle font-mono">The Anatomy of Your Activity</p>
@@ -354,7 +355,7 @@
          ======================================== -->
     <section class="slide" id="slide-routine" data-slide="5" aria-label="Daily Routine">
       <div class="slide-content">
-        <div class="vintage-card routine-card">
+        <div class="glass-card aurora-border routine-card">
           <div class="card-header">
             <h3 class="card-title font-display">Daily Routine</h3>
             <p class="card-subtitle font-mono">When The Code Flows</p>
@@ -385,7 +386,7 @@
          ======================================== -->
     <section class="slide" id="slide-productivity" data-slide="6" aria-label="Productivity Hours">
       <div class="slide-content">
-        <div class="vintage-card productivity-card">
+        <div class="glass-card aurora-border productivity-card">
           <div class="card-header">
             <h3 class="card-title font-display">Productivity Hours</h3>
             <p class="card-subtitle font-mono">Your Coding Clock</p>
@@ -393,7 +394,7 @@
           
           <!-- Clock Visualization -->
           <div class="clock-container">
-            <div class="vintage-clock" id="vintage-clock">
+            <div class="aurora-clock" id="aurora-clock">
               <div class="clock-face">
                 <div class="clock-segment morning" id="seg-morning">
                   <span class="segment-label">Morning</span>
@@ -452,7 +453,7 @@
          ======================================== -->
     <section class="slide" id="slide-community" data-slide="7" aria-label="Community Standing">
       <div class="slide-content">
-        <div class="vintage-card community-card">
+        <div class="glass-card aurora-border community-card">
           <div class="card-header">
             <h3 class="card-title font-display">Community Standing</h3>
             <p class="card-subtitle font-mono">Your Place in the Developer World</p>
@@ -517,7 +518,7 @@
          ======================================== -->
     <section class="slide" id="slide-languages" data-slide="8" aria-label="Language Portfolio">
       <div class="slide-content">
-        <div class="vintage-card languages-card">
+        <div class="glass-card aurora-border languages-card">
           <div class="card-header">
             <h3 class="card-title font-display">Language Portfolio</h3>
             <p class="card-subtitle font-mono">Your Polyglot Profile</p>
@@ -543,7 +544,7 @@
          ======================================== -->
     <section class="slide" id="slide-top-repos" data-slide="9" aria-label="Top Repositories">
       <div class="slide-content">
-        <div class="vintage-card repos-card">
+        <div class="glass-card aurora-border repos-card">
           <div class="card-header">
             <h3 class="card-title font-display">Top 5 Repositories</h3>
             <p class="card-subtitle font-mono">Your Greatest Works of 2025</p>
@@ -598,7 +599,7 @@
             </div>
           </div>
           
-          <a href="#" class="vintage-btn spotlight-link" id="featured-link" target="_blank" rel="noopener">
+          <a href="#" class="gradient-btn spotlight-link" id="featured-link" target="_blank" rel="noopener">
             View on GitHub
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
               <path d="M3.75 2h3.5a.75.75 0 010 1.5h-2.69l5.72 5.72a.75.75 0 11-1.06 1.06L3.5 4.56v2.69a.75.75 0 01-1.5 0v-3.5A.75.75 0 012.75 3h1z"/>
@@ -643,21 +644,21 @@
         
         <!-- Action Buttons -->
         <div class="finale-actions">
-          <button class="vintage-btn" id="btn-download-poster">
+          <button class="gradient-btn" id="btn-download-poster">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
               <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/>
             </svg>
             Download Poster
           </button>
           
-          <button class="vintage-btn vintage-btn-secondary" id="btn-share">
+          <button class="glass-btn" id="btn-share">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
               <path d="M15 14c-.988 0-1.875.422-2.5 1.088L8.207 12.5a3.5 3.5 0 000-1L12.5 8.912A3.5 3.5 0 1012.5 7.5a3.5 3.5 0 00.207 1.088L8.5 11.088A3.5 3.5 0 106 12.5c0-.375.063-.735.176-1.073L10.293 14a3.5 3.5 0 00-.293 1.5 3.5 3.5 0 105 0z"/>
             </svg>
             Share Story
           </button>
           
-          <button class="vintage-btn vintage-btn-secondary" id="btn-restart">
+          <button class="glass-btn" id="btn-restart">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
               <path d="M10 3v2a5 5 0 11-4.546 7.066l-1.732 1a7 7 0 101.506-6.338L4 6V3H1v5.5h5V6.168A5 5 0 0110 3z"/>
             </svg>

@@ -8,7 +8,7 @@
 import { githubAPI, GitHubAPIError } from './github-api.js';
 import { DataProcessor } from './data-processor.js';
 import { ChartsRenderer } from './charts-renderer.js';
-import { VintageSlides } from './vintage-slides.js';
+import { AuroraSlides } from './aurora-slides.js';
 import { PosterExport } from './poster-export.js';
 
 class GitStoryApp {
@@ -16,9 +16,9 @@ class GitStoryApp {
     // State
     this.currentSlide = 0;
     this.totalSlides = 0;
-    this.isPlaying = true;
+    this.isPlaying = false; // Auto-advance disabled by default
     this.autoAdvanceTimer = null;
-    this.autoAdvanceDelay = 8000; // 8 seconds
+    this.autoAdvanceDelay = 12000; // 12 seconds if enabled
     
     // Data
     this.userData = null;
@@ -27,7 +27,7 @@ class GitStoryApp {
     // Modules
     this.dataProcessor = new DataProcessor();
     this.chartsRenderer = new ChartsRenderer();
-    this.vintageSlides = new VintageSlides();
+    this.auroraSlides = new AuroraSlides();
     this.posterExport = new PosterExport();
     
     // DOM Elements
@@ -147,19 +147,6 @@ class GitStoryApp {
     
     // Visibility change (pause when tab hidden)
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
-    
-    // Pause on hover
-    this.elements.slideContainer?.addEventListener('mouseenter', () => {
-      if (this.isPlaying && this.currentSlide > 0) {
-        this.pauseAutoAdvance(true); // Temporary pause
-      }
-    });
-    
-    this.elements.slideContainer?.addEventListener('mouseleave', () => {
-      if (this.isPlaying && this.currentSlide > 0) {
-        this.startAutoAdvance();
-      }
-    });
   }
 
   /**
@@ -262,9 +249,9 @@ class GitStoryApp {
       this.hideLoading();
       this.showNavControls();
       
-      // Go to title card
+      // Go to title card (no auto-advance)
       this.goToSlide(1);
-      this.startAutoAdvance();
+      // User controls navigation manually
       
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -536,23 +523,40 @@ class GitStoryApp {
       }
     });
     
-    // Update stat values
-    document.getElementById('commits-count').textContent = commits.toLocaleString();
-    document.getElementById('prs-count').textContent = prs.toLocaleString();
-    document.getElementById('issues-count').textContent = issues.toLocaleString();
-    document.getElementById('reviews-count').textContent = reviews.toLocaleString();
+    const total = commits + prs + issues + reviews || 1;
     
-    // Render pie chart
+    // Update stat values with counts and percentages
+    const commitsCountEl = document.getElementById('commits-count');
+    const prsCountEl = document.getElementById('prs-count');
+    const issuesCountEl = document.getElementById('issues-count');
+    const reviewsCountEl = document.getElementById('reviews-count');
+    
+    const commitsPercentEl = document.getElementById('commits-percent');
+    const prsPercentEl = document.getElementById('prs-percent');
+    const issuesPercentEl = document.getElementById('issues-percent');
+    const reviewsPercentEl = document.getElementById('reviews-percent');
+    
+    if (commitsCountEl) commitsCountEl.textContent = commits.toLocaleString();
+    if (prsCountEl) prsCountEl.textContent = prs.toLocaleString();
+    if (issuesCountEl) issuesCountEl.textContent = issues.toLocaleString();
+    if (reviewsCountEl) reviewsCountEl.textContent = reviews.toLocaleString();
+    
+    if (commitsPercentEl) commitsPercentEl.textContent = `${Math.round((commits / total) * 100)}%`;
+    if (prsPercentEl) prsPercentEl.textContent = `${Math.round((prs / total) * 100)}%`;
+    if (issuesPercentEl) issuesPercentEl.textContent = `${Math.round((issues / total) * 100)}%`;
+    if (reviewsPercentEl) reviewsPercentEl.textContent = `${Math.round((reviews / total) * 100)}%`;
+    
+    // Render pie chart with aurora colors
     const canvas = document.getElementById('composition-chart');
     if (canvas) {
-      const data = [
-        { label: 'Commits', value: commits, color: '#cd853f' },
-        { label: 'Pull Requests', value: prs, color: '#8b6914' },
-        { label: 'Issues', value: issues, color: '#d4a373' },
-        { label: 'Reviews', value: reviews, color: '#bc6c25' }
-      ].filter(d => d.value > 0);
-      
-      this.chartsRenderer.renderPieChart(canvas, data);
+      // Use aurora color scheme
+      const activityBreakdown = {
+        commits: commits,
+        pullRequests: prs,
+        issues: issues,
+        reviews: reviews
+      };
+      this.chartsRenderer.renderCompositionChart(canvas, activityBreakdown);
     }
   }
 

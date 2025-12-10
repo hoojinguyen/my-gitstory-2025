@@ -1,28 +1,52 @@
 /**
  * GitStory 2025 - Charts Renderer
  * 
- * Canvas-based chart rendering for vintage-styled
+ * Canvas-based chart rendering for modern aurora-styled
  * data visualizations (line charts, heatmaps, etc.)
  */
 
 class ChartsRenderer {
   constructor() {
     this.data = null;
+    // Modern Aurora color palette
     this.colors = {
-      gold: '#c9a227',
-      secondary: '#8b6914',
-      accent: '#cd853f',
-      cream: '#f5e6d3',
-      dark: '#1a0f08',
-      paper: '#f4e4c9',
-      ink: '#2c1810',
-      // Contribution levels
-      level0: '#3d2817',
-      level1: '#5c3d1e',
-      level2: '#8b5a2b',
-      level3: '#b8860b',
-      level4: '#daa520',
+      // Aurora gradients
+      aurora1: '#667eea',
+      aurora2: '#764ba2',
+      aurora3: '#f093fb',
+      aurora4: '#f5576c',
+      
+      // Background colors
+      dark: '#0f0f23',
+      darkSecondary: '#1a1a2e',
+      surface: '#16213e',
+      
+      // Text colors
+      textPrimary: '#ffffff',
+      textSecondary: 'rgba(255, 255, 255, 0.7)',
+      textMuted: 'rgba(255, 255, 255, 0.4)',
+      
+      // Chart specific
+      gridLine: 'rgba(255, 255, 255, 0.1)',
+      gridLineFaint: 'rgba(255, 255, 255, 0.05)',
+      
+      // Contribution levels (green theme for heatmap)
+      level0: 'rgba(255, 255, 255, 0.05)',
+      level1: '#0e4429',
+      level2: '#006d32',
+      level3: '#26a641',
+      level4: '#39d353',
+      
+      // Accent colors for charts
+      accent1: '#00d4ff',
+      accent2: '#ff6b9d',
+      accent3: '#c084fc',
+      accent4: '#fbbf24',
+      accent5: '#34d399',
     };
+    
+    // Gradient definitions for reuse
+    this.gradients = {};
   }
 
   /**
@@ -70,15 +94,15 @@ class ChartsRenderer {
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
     
-    // Background (paper texture simulation)
-    ctx.fillStyle = this.colors.paper;
+    // Dark background with subtle gradient
+    const bgGradient = ctx.createLinearGradient(0, 0, width, height);
+    bgGradient.addColorStop(0, this.colors.dark);
+    bgGradient.addColorStop(1, this.colors.darkSecondary);
+    ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, width, height);
     
-    // Add subtle grain
-    this.addGrain(ctx, width, height, 0.03);
-    
     // Draw grid lines
-    ctx.strokeStyle = this.colors.secondary + '30';
+    ctx.strokeStyle = this.colors.gridLine;
     ctx.lineWidth = 1;
     
     // Horizontal grid lines
@@ -92,8 +116,8 @@ class ChartsRenderer {
       
       // Y-axis labels
       const value = Math.round(maxValue - (maxValue / gridLines) * i);
-      ctx.fillStyle = this.colors.ink;
-      ctx.font = '12px "Courier Prime", monospace';
+      ctx.fillStyle = this.colors.textMuted;
+      ctx.font = '12px "Fira Code", monospace';
       ctx.textAlign = 'right';
       ctx.fillText(value.toString(), padding.left - 10, y + 4);
     }
@@ -102,7 +126,7 @@ class ChartsRenderer {
     if (weeklyTotals.length > 0) {
       const stepX = chartWidth / (weeklyTotals.length - 1);
       
-      // Area fill
+      // Area fill with aurora gradient
       ctx.beginPath();
       ctx.moveTo(padding.left, padding.top + chartHeight);
       
@@ -124,14 +148,17 @@ class ChartsRenderer {
       ctx.lineTo(padding.left + chartWidth, padding.top + chartHeight);
       ctx.closePath();
       
-      // Gradient fill
+      // Aurora gradient fill
       const gradient = ctx.createLinearGradient(0, padding.top, 0, padding.top + chartHeight);
-      gradient.addColorStop(0, this.colors.gold + '40');
-      gradient.addColorStop(1, this.colors.gold + '05');
+      gradient.addColorStop(0, this.colors.aurora1 + '60');
+      gradient.addColorStop(0.5, this.colors.aurora2 + '30');
+      gradient.addColorStop(1, this.colors.aurora3 + '05');
       ctx.fillStyle = gradient;
       ctx.fill();
       
-      // Draw the line
+      // Draw the line with glow effect
+      ctx.shadowColor = this.colors.aurora1;
+      ctx.shadowBlur = 15;
       ctx.beginPath();
       weeklyTotals.forEach((value, index) => {
         const x = padding.left + stepX * index;
@@ -147,32 +174,43 @@ class ChartsRenderer {
         }
       });
       
-      ctx.strokeStyle = this.colors.gold;
+      // Create line gradient
+      const lineGradient = ctx.createLinearGradient(padding.left, 0, width - padding.right, 0);
+      lineGradient.addColorStop(0, this.colors.aurora1);
+      lineGradient.addColorStop(0.5, this.colors.aurora2);
+      lineGradient.addColorStop(1, this.colors.aurora3);
+      
+      ctx.strokeStyle = lineGradient;
       ctx.lineWidth = 3;
       ctx.lineCap = 'round';
       ctx.stroke();
+      ctx.shadowBlur = 0;
       
-      // Draw dots at data points (every 4 weeks)
+      // Draw glowing dots at data points (every 4 weeks)
       weeklyTotals.forEach((value, index) => {
         if (index % 4 === 0) {
           const x = padding.left + stepX * index;
           const y = padding.top + chartHeight - (value / maxValue) * chartHeight;
           
+          // Outer glow
+          ctx.beginPath();
+          ctx.arc(x, y, 8, 0, Math.PI * 2);
+          ctx.fillStyle = this.colors.aurora1 + '30';
+          ctx.fill();
+          
+          // Inner dot
           ctx.beginPath();
           ctx.arc(x, y, 4, 0, Math.PI * 2);
-          ctx.fillStyle = this.colors.gold;
+          ctx.fillStyle = this.colors.aurora3;
           ctx.fill();
-          ctx.strokeStyle = this.colors.dark;
-          ctx.lineWidth = 1;
-          ctx.stroke();
         }
       });
     }
     
     // X-axis labels (months)
     const months = this.data.heatmapData.months;
-    ctx.fillStyle = this.colors.ink;
-    ctx.font = '11px "Courier Prime", monospace';
+    ctx.fillStyle = this.colors.textMuted;
+    ctx.font = '11px "Fira Code", monospace';
     ctx.textAlign = 'center';
     
     months.forEach(month => {
@@ -185,14 +223,14 @@ class ChartsRenderer {
     ctx.translate(15, height / 2);
     ctx.rotate(-Math.PI / 2);
     ctx.textAlign = 'center';
-    ctx.fillStyle = this.colors.ink;
-    ctx.font = '12px "Courier Prime", monospace';
+    ctx.fillStyle = this.colors.textSecondary;
+    ctx.font = '12px "Fira Code", monospace';
     ctx.fillText('Contributions', 0, 0);
     ctx.restore();
     
-    // Title
-    ctx.fillStyle = this.colors.ink;
-    ctx.font = 'bold 14px "Courier Prime", monospace';
+    // Title with gradient effect
+    ctx.fillStyle = this.colors.textPrimary;
+    ctx.font = 'bold 14px "Space Grotesk", sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText('Weekly Contribution Velocity', padding.left, 20);
   }
@@ -223,7 +261,10 @@ class ChartsRenderer {
       monthsContainer.appendChild(label);
     });
     
-    // Render grid
+    // Use document fragment for better performance
+    const fragment = document.createDocumentFragment();
+    
+    // Render grid - simplified animation for better performance
     weeks.forEach((week, weekIndex) => {
       const weekColumn = document.createElement('div');
       weekColumn.className = 'heatmap-week';
@@ -243,26 +284,43 @@ class ChartsRenderer {
         cell.setAttribute('data-count', day.count);
         cell.setAttribute('title', `${day.date}: ${day.count} contribution${day.count !== 1 ? 's' : ''}`);
         
-        // Animation delay for staggered reveal
-        const delay = (weekIndex * 7 + dayIndex) * 2;
-        cell.style.animationDelay = `${delay}ms`;
-        cell.classList.add('grid-cell-animate');
+        // Simplified animation - only animate by week, not each cell
+        // This reduces animation complexity significantly
+        cell.style.opacity = '0';
+        cell.style.transform = 'scale(0.8)';
         
         weekColumn.appendChild(cell);
       });
       
-      gridContainer.appendChild(weekColumn);
+      fragment.appendChild(weekColumn);
+    });
+    
+    gridContainer.appendChild(fragment);
+    
+    // Batch animate weeks for better performance
+    requestAnimationFrame(() => {
+      const weekColumns = gridContainer.querySelectorAll('.heatmap-week');
+      weekColumns.forEach((week, weekIndex) => {
+        setTimeout(() => {
+          const cells = week.querySelectorAll('.heatmap-cell');
+          cells.forEach(cell => {
+            cell.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            cell.style.opacity = '1';
+            cell.style.transform = 'scale(1)';
+          });
+        }, weekIndex * 15); // Stagger by week, not by cell
+      });
     });
   }
 
   /**
-   * Add subtle grain texture to canvas
+   * Add subtle grain texture to canvas (optional for dark mode)
    * @param {CanvasRenderingContext2D} ctx - Canvas context
    * @param {number} width - Canvas width
    * @param {number} height - Canvas height
    * @param {number} opacity - Grain opacity
    */
-  addGrain(ctx, width, height, opacity = 0.05) {
+  addGrain(ctx, width, height, opacity = 0.02) {
     const imageData = ctx.getImageData(0, 0, width, height);
     const data = imageData.data;
     
@@ -298,11 +356,12 @@ class ChartsRenderer {
     const radius = 100;
     const innerRadius = 50; // Donut chart
     
+    // Modern aurora colors for pie slices
     const slices = [
-      { label: 'Commits', value: data.commits, color: this.colors.gold },
-      { label: 'PRs', value: data.pullRequests, color: this.colors.secondary },
-      { label: 'Issues', value: data.issues, color: this.colors.accent },
-      { label: 'Reviews', value: data.reviews, color: this.colors.cream },
+      { label: 'Commits', value: data.commits, color: this.colors.aurora1 },
+      { label: 'PRs', value: data.pullRequests, color: this.colors.aurora2 },
+      { label: 'Issues', value: data.issues, color: this.colors.aurora3 },
+      { label: 'Reviews', value: data.reviews, color: this.colors.accent1 },
     ].filter(s => s.value > 0);
     
     const total = slices.reduce((sum, s) => sum + s.value, 0);
@@ -313,7 +372,9 @@ class ChartsRenderer {
     slices.forEach(slice => {
       const sliceAngle = (slice.value / total) * Math.PI * 2;
       
-      // Draw slice
+      // Draw slice with glow
+      ctx.shadowColor = slice.color;
+      ctx.shadowBlur = 10;
       ctx.beginPath();
       ctx.moveTo(centerX, centerY);
       ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
@@ -322,6 +383,7 @@ class ChartsRenderer {
       
       ctx.fillStyle = slice.color;
       ctx.fill();
+      ctx.shadowBlur = 0;
       
       ctx.strokeStyle = this.colors.dark;
       ctx.lineWidth = 2;
@@ -330,23 +392,24 @@ class ChartsRenderer {
       currentAngle += sliceAngle;
     });
     
-    // Draw inner circle (donut hole)
+    // Draw inner circle (donut hole) with glass effect
     ctx.beginPath();
     ctx.arc(centerX, centerY, innerRadius, 0, Math.PI * 2);
-    ctx.fillStyle = this.colors.paper;
+    ctx.fillStyle = this.colors.dark;
     ctx.fill();
-    ctx.strokeStyle = this.colors.dark;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
     ctx.lineWidth = 2;
     ctx.stroke();
     
     // Center text
-    ctx.fillStyle = this.colors.ink;
-    ctx.font = 'bold 24px "Bebas Neue", sans-serif';
+    ctx.fillStyle = this.colors.textPrimary;
+    ctx.font = 'bold 28px "Space Grotesk", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(total.toString(), centerX, centerY - 8);
-    ctx.font = '10px "Courier Prime", monospace';
-    ctx.fillText('TOTAL', centerX, centerY + 12);
+    ctx.font = '10px "Fira Code", monospace';
+    ctx.fillStyle = this.colors.textMuted;
+    ctx.fillText('TOTAL', centerX, centerY + 15);
   }
 
   /**
@@ -362,68 +425,110 @@ class ChartsRenderer {
     
     const rect = canvas.parentElement.getBoundingClientRect();
     canvas.width = rect.width * dpr;
-    canvas.height = 200 * dpr;
+    canvas.height = 220 * dpr;
     canvas.style.width = rect.width + 'px';
-    canvas.style.height = '200px';
+    canvas.style.height = '220px';
     ctx.scale(dpr, dpr);
     
     const width = rect.width;
-    const height = 200;
-    const padding = { top: 20, right: 20, bottom: 40, left: 50 };
+    const height = 220;
+    const padding = { top: 30, right: 25, bottom: 50, left: 55 };
     
     const chartWidth = width - padding.left - padding.right;
     const chartHeight = height - padding.top - padding.bottom;
-    const barWidth = chartWidth / 24 - 2;
+    const barWidth = Math.max(8, (chartWidth / 24) - 4);
+    const barGap = (chartWidth - barWidth * 24) / 23;
     const maxValue = Math.max(...hours, 1);
     
-    // Background
-    ctx.fillStyle = this.colors.paper;
+    // Dark background with subtle gradient
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, height);
+    bgGradient.addColorStop(0, this.colors.dark);
+    bgGradient.addColorStop(1, this.colors.darkSecondary);
+    ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, width, height);
     
-    // Draw bars
+    // Grid lines
+    ctx.strokeStyle = this.colors.gridLineFaint;
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+      const y = padding.top + (chartHeight / 4) * i;
+      ctx.beginPath();
+      ctx.moveTo(padding.left, y);
+      ctx.lineTo(width - padding.right, y);
+      ctx.stroke();
+    }
+    
+    // Find peak hour for highlighting
+    const peakHour = hours.indexOf(Math.max(...hours));
+    
+    // Draw bars with aurora gradient and rounded tops
     hours.forEach((value, hour) => {
-      const barHeight = (value / maxValue) * chartHeight;
-      const x = padding.left + (chartWidth / 24) * hour + 1;
+      const barHeight = Math.max(2, (value / maxValue) * chartHeight);
+      const x = padding.left + (barWidth + barGap) * hour;
       const y = padding.top + chartHeight - barHeight;
       
-      // Gradient
-      const gradient = ctx.createLinearGradient(x, y, x, y + barHeight);
-      gradient.addColorStop(0, this.colors.gold);
-      gradient.addColorStop(1, this.colors.secondary);
+      // Aurora gradient - highlight peak hour
+      const gradient = ctx.createLinearGradient(x, y + barHeight, x, y);
+      if (hour === peakHour && value > 0) {
+        // Peak hour gets special treatment
+        gradient.addColorStop(0, '#00f5ff');
+        gradient.addColorStop(0.5, '#a855f7');
+        gradient.addColorStop(1, '#ec4899');
+        ctx.shadowColor = '#00f5ff';
+        ctx.shadowBlur = 15;
+      } else {
+        gradient.addColorStop(0, this.colors.aurora1 + 'cc');
+        gradient.addColorStop(0.5, this.colors.aurora2 + 'cc');
+        gradient.addColorStop(1, this.colors.aurora3 + 'cc');
+        ctx.shadowColor = this.colors.aurora2;
+        ctx.shadowBlur = 6;
+      }
       
+      // Draw rounded bar
       ctx.fillStyle = gradient;
-      ctx.fillRect(x, y, barWidth, barHeight);
-      
-      // Border
-      ctx.strokeStyle = this.colors.dark + '50';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(x, y, barWidth, barHeight);
+      ctx.beginPath();
+      const radius = Math.min(4, barWidth / 2);
+      ctx.roundRect(x, y, barWidth, barHeight, [radius, radius, 0, 0]);
+      ctx.fill();
+      ctx.shadowBlur = 0;
     });
     
-    // X-axis labels
-    ctx.fillStyle = this.colors.ink;
-    ctx.font = '10px "Courier Prime", monospace';
+    // X-axis labels (every 3 hours)
+    ctx.fillStyle = this.colors.textSecondary;
+    ctx.font = '11px "Fira Code", monospace';
     ctx.textAlign = 'center';
     
-    [0, 6, 12, 18].forEach(hour => {
-      const x = padding.left + (chartWidth / 24) * hour + barWidth / 2;
+    [0, 3, 6, 9, 12, 15, 18, 21].forEach(hour => {
+      const x = padding.left + (barWidth + barGap) * hour + barWidth / 2;
       const label = hour === 0 ? '12AM' : hour === 12 ? '12PM' : 
                     hour < 12 ? `${hour}AM` : `${hour - 12}PM`;
-      ctx.fillText(label, x, height - 15);
+      ctx.fillText(label, x, height - 12);
     });
     
-    // Y-axis
+    // Y-axis labels
     ctx.textAlign = 'right';
-    ctx.fillText('0', padding.left - 10, padding.top + chartHeight);
-    ctx.fillText(maxValue.toString(), padding.left - 10, padding.top + 5);
+    ctx.fillStyle = this.colors.textMuted;
+    for (let i = 0; i <= 4; i++) {
+      const value = Math.round((maxValue / 4) * (4 - i));
+      const y = padding.top + (chartHeight / 4) * i + 4;
+      ctx.fillText(value.toString(), padding.left - 10, y);
+    }
+    
+    // Title
+    ctx.fillStyle = this.colors.textPrimary;
+    ctx.font = 'bold 13px "Space Grotesk", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('Activity by Hour', padding.left, 18);
   }
 
   /**
    * Render composition donut chart
    * @param {HTMLCanvasElement} canvas - Target canvas
+   * @param {Object} activityData - Optional activity breakdown data
    */
-  renderCompositionChart(canvas) {
-    if (!canvas || !this.data?.activityBreakdown) return;
+  renderCompositionChart(canvas, activityData = null) {
+    const data = activityData || this.data?.activityBreakdown;
+    if (!canvas || !data) return;
     
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
@@ -440,12 +545,12 @@ class ChartsRenderer {
     const radius = 110;
     const innerRadius = 60;
     
-    const data = this.data.activityBreakdown;
+    // Aurora colors for composition
     const slices = [
-      { label: 'Commits', value: data.commits, color: this.colors.gold },
-      { label: 'PRs', value: data.pullRequests, color: this.colors.secondary },
-      { label: 'Issues', value: data.issues, color: this.colors.accent },
-      { label: 'Reviews', value: data.reviews, color: this.colors.cream },
+      { label: 'Commits', value: data.commits || 0, color: this.colors.aurora1 },
+      { label: 'PRs', value: data.pullRequests || 0, color: this.colors.aurora2 },
+      { label: 'Issues', value: data.issues || 0, color: this.colors.aurora3 },
+      { label: 'Reviews', value: data.reviews || 0, color: this.colors.accent1 },
     ].filter(s => s.value > 0);
     
     const total = slices.reduce((sum, s) => sum + s.value, 0);
@@ -457,8 +562,15 @@ class ChartsRenderer {
       ctx.fill();
       ctx.beginPath();
       ctx.arc(centerX, centerY, innerRadius, 0, Math.PI * 2);
-      ctx.fillStyle = this.colors.paper;
+      ctx.fillStyle = this.colors.dark;
       ctx.fill();
+      
+      // Empty state text
+      ctx.fillStyle = this.colors.textMuted;
+      ctx.font = '14px "Fira Code", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('No activity data', centerX, centerY);
       return;
     }
     
@@ -467,7 +579,9 @@ class ChartsRenderer {
     slices.forEach((slice, index) => {
       const sliceAngle = (slice.value / total) * Math.PI * 2;
       
-      // Draw slice
+      // Draw slice with glow
+      ctx.shadowColor = slice.color;
+      ctx.shadowBlur = 12;
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
       ctx.arc(centerX, centerY, innerRadius, currentAngle + sliceAngle, currentAngle, true);
@@ -475,6 +589,7 @@ class ChartsRenderer {
       
       ctx.fillStyle = slice.color;
       ctx.fill();
+      ctx.shadowBlur = 0;
       
       // Slice border
       ctx.strokeStyle = this.colors.dark;
@@ -484,19 +599,23 @@ class ChartsRenderer {
       currentAngle += sliceAngle;
     });
     
-    // Center circle
+    // Center circle (glass effect)
     ctx.beginPath();
     ctx.arc(centerX, centerY, innerRadius - 2, 0, Math.PI * 2);
-    ctx.fillStyle = this.colors.paper;
+    ctx.fillStyle = this.colors.dark;
     ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
     
     // Center text
-    ctx.fillStyle = this.colors.ink;
-    ctx.font = 'bold 32px "Bebas Neue", sans-serif';
+    ctx.fillStyle = this.colors.textPrimary;
+    ctx.font = 'bold 32px "Space Grotesk", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(total.toString(), centerX, centerY - 8);
-    ctx.font = '11px "Courier Prime", monospace';
+    ctx.fillStyle = this.colors.textMuted;
+    ctx.font = '11px "Fira Code", monospace';
     ctx.fillText('ACTIVITIES', centerX, centerY + 14);
   }
 
@@ -521,12 +640,12 @@ class ChartsRenderer {
         percent: parseFloat(l.percentage) || 0
       }));
     } else {
-      container.innerHTML = '<p class="font-mono" style="color: var(--vintage-light);">No language data available</p>';
+      container.innerHTML = '<p class="font-mono" style="color: var(--text-secondary);">No language data available</p>';
       return;
     }
     
     if (languages.length === 0) {
-      container.innerHTML = '<p class="font-mono" style="color: var(--vintage-light);">No language data available</p>';
+      container.innerHTML = '<p class="font-mono" style="color: var(--text-secondary);">No language data available</p>';
       return;
     }
     
@@ -534,26 +653,27 @@ class ChartsRenderer {
     const topLanguages = languages.slice(0, 6);
     const maxPercent = Math.max(...topLanguages.map(l => l.percent || 0), 1);
     
-    // Language colors (approximate GitHub colors)
+    // Modern vibrant language colors
     const langColors = {
-      'JavaScript': '#f1e05a',
+      'JavaScript': '#f7df1e',
       'TypeScript': '#3178c6',
       'Python': '#3572A5',
       'Java': '#b07219',
       'C++': '#f34b7d',
-      'C#': '#178600',
+      'C#': '#68217a',
       'Go': '#00ADD8',
       'Rust': '#dea584',
-      'Ruby': '#701516',
-      'PHP': '#4F5D95',
+      'Ruby': '#cc342d',
+      'PHP': '#777BB4',
       'Swift': '#F05138',
       'Kotlin': '#A97BFF',
       'Dart': '#00B4AB',
       'HTML': '#e34c26',
-      'CSS': '#563d7c',
+      'CSS': '#264de4',
       'Shell': '#89e051',
       'Vue': '#41b883',
       'Svelte': '#ff3e00',
+      'React': '#61dafb',
     };
     
     topLanguages.forEach((lang, index) => {
@@ -565,7 +685,7 @@ class ChartsRenderer {
         ? (lang.percent / maxPercent) * 100 
         : 0;
       
-      const color = langColors[lang.label] || this.colors.gold;
+      const color = langColors[lang.label] || this.colors.aurora1;
       
       item.innerHTML = `
         <div class="language-header">
@@ -573,7 +693,7 @@ class ChartsRenderer {
           <span class="language-percent font-display">${lang.percent}%</span>
         </div>
         <div class="language-bar-bg">
-          <div class="language-bar-fill" style="width: ${barWidth}%; background-color: ${color};"></div>
+          <div class="language-bar-fill" style="width: ${barWidth}%; background: linear-gradient(90deg, ${color}, ${color}dd);"></div>
         </div>
       `;
       
@@ -592,13 +712,13 @@ class ChartsRenderer {
     container.innerHTML = '';
     
     if (repos.length === 0) {
-      container.innerHTML = '<p class="font-mono" style="color: var(--vintage-light);">No repositories found</p>';
+      container.innerHTML = '<p class="font-mono" style="color: var(--text-secondary);">No repositories found</p>';
       return;
     }
     
     repos.forEach((repo, index) => {
       const card = document.createElement('div');
-      card.className = 'repo-card';
+      card.className = 'repo-card glass-card';
       card.style.animationDelay = `${index * 150}ms`;
       
       const langColor = this.getLanguageColor(repo.language);
@@ -628,24 +748,26 @@ class ChartsRenderer {
    */
   getLanguageColor(language) {
     const colors = {
-      'JavaScript': '#f1e05a',
+      'JavaScript': '#f7df1e',
       'TypeScript': '#3178c6',
       'Python': '#3572A5',
       'Java': '#b07219',
       'C++': '#f34b7d',
-      'C#': '#178600',
+      'C#': '#68217a',
       'Go': '#00ADD8',
       'Rust': '#dea584',
-      'Ruby': '#701516',
-      'PHP': '#4F5D95',
+      'Ruby': '#cc342d',
+      'PHP': '#777BB4',
       'Swift': '#F05138',
       'Kotlin': '#A97BFF',
       'HTML': '#e34c26',
-      'CSS': '#563d7c',
+      'CSS': '#264de4',
       'Shell': '#89e051',
       'Vue': '#41b883',
+      'React': '#61dafb',
+      'Svelte': '#ff3e00',
     };
-    return colors[language] || this.colors.gold;
+    return colors[language] || this.colors.aurora1;
   }
 
   /**
@@ -680,16 +802,16 @@ class ChartsRenderer {
     const radius = size * 0.4;
     const maxCount = Math.max(...hourCounts, 1);
     
-    // Background circle
+    // Background circle with glass effect
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius + 20, 0, Math.PI * 2);
-    ctx.fillStyle = this.colors.paper;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
     ctx.fill();
-    ctx.strokeStyle = this.colors.secondary + '50';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
     ctx.lineWidth = 2;
     ctx.stroke();
     
-    // Draw radial bars for each hour
+    // Draw radial bars for each hour with aurora gradient
     for (let hour = 0; hour < 24; hour++) {
       const angle = (hour / 24) * Math.PI * 2 - Math.PI / 2;
       const value = hourCounts[hour];
@@ -701,11 +823,14 @@ class ChartsRenderer {
       const x2 = centerX + Math.cos(angle) * (innerRadius + barLength);
       const y2 = centerY + Math.sin(angle) * (innerRadius + barLength);
       
-      // Bar gradient
+      // Aurora gradient
       const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-      gradient.addColorStop(0, this.colors.secondary);
-      gradient.addColorStop(1, this.colors.gold);
+      gradient.addColorStop(0, this.colors.aurora1);
+      gradient.addColorStop(0.5, this.colors.aurora2);
+      gradient.addColorStop(1, this.colors.aurora3);
       
+      ctx.shadowColor = this.colors.aurora2;
+      ctx.shadowBlur = 6;
       ctx.beginPath();
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
@@ -713,11 +838,12 @@ class ChartsRenderer {
       ctx.lineWidth = 8;
       ctx.lineCap = 'round';
       ctx.stroke();
+      ctx.shadowBlur = 0;
     }
     
     // Hour labels
-    ctx.fillStyle = this.colors.ink;
-    ctx.font = '10px "Courier Prime", monospace';
+    ctx.fillStyle = this.colors.textMuted;
+    ctx.font = '10px "Fira Code", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
@@ -736,8 +862,12 @@ class ChartsRenderer {
     ctx.arc(centerX, centerY, 25, 0, Math.PI * 2);
     ctx.fillStyle = this.colors.dark;
     ctx.fill();
-    ctx.fillStyle = this.colors.gold;
-    ctx.font = 'bold 12px "Bebas Neue", sans-serif';
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    ctx.fillStyle = this.colors.aurora3;
+    ctx.font = 'bold 12px "Space Grotesk", sans-serif';
     ctx.fillText('24H', centerX, centerY);
   }
 
@@ -778,6 +908,10 @@ class ChartsRenderer {
     data.forEach(slice => {
       const sliceAngle = (slice.value / total) * Math.PI * 2;
       
+      // Glow effect
+      ctx.shadowColor = slice.color;
+      ctx.shadowBlur = 10;
+      
       ctx.beginPath();
       ctx.arc(centerX, centerY, outerRadius, currentAngle, currentAngle + sliceAngle);
       ctx.arc(centerX, centerY, innerRadius, currentAngle + sliceAngle, currentAngle, true);
@@ -785,6 +919,7 @@ class ChartsRenderer {
       
       ctx.fillStyle = slice.color;
       ctx.fill();
+      ctx.shadowBlur = 0;
       ctx.strokeStyle = this.colors.dark;
       ctx.lineWidth = 2;
       ctx.stroke();
@@ -792,19 +927,23 @@ class ChartsRenderer {
       currentAngle += sliceAngle;
     });
     
-    // Inner circle
+    // Inner circle (glass effect)
     ctx.beginPath();
     ctx.arc(centerX, centerY, innerRadius - 2, 0, Math.PI * 2);
-    ctx.fillStyle = this.colors.paper;
+    ctx.fillStyle = this.colors.dark;
     ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
     
     // Center text
-    ctx.fillStyle = this.colors.ink;
-    ctx.font = 'bold 28px "Bebas Neue", sans-serif';
+    ctx.fillStyle = this.colors.textPrimary;
+    ctx.font = 'bold 28px "Space Grotesk", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(total.toLocaleString(), centerX, centerY - 5);
-    ctx.font = '10px "Courier Prime", monospace';
+    ctx.fillStyle = this.colors.textMuted;
+    ctx.font = '10px "Fira Code", monospace';
     ctx.fillText('TOTAL', centerX, centerY + 12);
   }
 
@@ -816,7 +955,7 @@ class ChartsRenderer {
    */
   renderRepoCard(repo, rank) {
     const card = document.createElement('div');
-    card.className = 'repo-card';
+    card.className = 'repo-card glass-card';
     card.style.animationDelay = `${(rank - 1) * 150}ms`;
     
     const langColor = this.getLanguageColor(repo.language);

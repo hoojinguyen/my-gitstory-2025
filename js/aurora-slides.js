@@ -1,11 +1,11 @@
 /**
- * GitStory 2025 - Vintage Slides
+ * GitStory 2025 - Aurora Slides
  * 
  * Manages individual slide components and their
  * specific behaviors, animations, and content.
  */
 
-class VintageSlides {
+class AuroraSlides {
   constructor() {
     this.slides = new Map();
     this.initialized = false;
@@ -189,8 +189,8 @@ class WelcomeSlide extends BaseSlide {
     const element = this.getElement();
     if (!element) return;
     
-    // Trigger vintage reveal animations
-    const reveals = element.querySelectorAll('.vintage-reveal');
+    // Trigger aurora reveal animations
+    const reveals = element.querySelectorAll('.aurora-reveal');
     reveals.forEach((el, index) => {
       el.style.animationDelay = `${index * 0.2}s`;
     });
@@ -212,7 +212,7 @@ class TitleCardSlide extends BaseSlide {
     if (!element) return;
     
     // Avatar reveal animation
-    const avatar = element.querySelector('.vintage-avatar');
+    const avatar = element.querySelector('.aurora-avatar');
     if (avatar) {
       avatar.classList.add('photo-reveal');
     }
@@ -224,7 +224,7 @@ class TitleCardSlide extends BaseSlide {
     const yearBadge = element.querySelector('.year-badge');
     if (yearBadge) {
       setTimeout(() => {
-        yearBadge.classList.add('vintage-reveal');
+        yearBadge.classList.add('aurora-reveal');
       }, 800);
     }
   }
@@ -254,9 +254,9 @@ class VelocitySlide extends BaseSlide {
     });
     
     // Card entrance
-    const card = element.querySelector('.vintage-card');
+    const card = element.querySelector('.glass-card');
     if (card) {
-      card.classList.add('film-reel-enter');
+      card.classList.add('glass-card-enter');
     }
   }
 }
@@ -276,9 +276,9 @@ class HeatmapSlide extends BaseSlide {
     if (!element) return;
     
     // Card entrance
-    const card = element.querySelector('.vintage-card');
+    const card = element.querySelector('.glass-card');
     if (card) {
-      card.classList.add('film-reel-enter');
+      card.classList.add('glass-card-enter');
     }
     
     // Cells animate via CSS with grid-cell-animate class
@@ -286,4 +286,4 @@ class HeatmapSlide extends BaseSlide {
   }
 }
 
-export { VintageSlides, BaseSlide };
+export { AuroraSlides, BaseSlide };
