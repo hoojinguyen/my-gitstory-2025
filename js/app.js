@@ -731,20 +731,20 @@ class GitStoryApp {
    * Populate Top 5 Repos slide (Slide 10)
    */
   populateTopReposSlide() {
-    const { repos } = this.userData;
-    
-    // Score and sort repos
-    const scoredRepos = repos.map(repo => ({
-      ...repo,
-      score: this.dataProcessor.calculateRepoScore(repo)
-    })).sort((a, b) => b.score - a.score);
-    
-    const topRepos = scoredRepos.slice(0, 5);
+    // Use the pre-computed scored repos which factor in user activity (commits, PRs)
+    const { scoredRepos } = this.processedData;
+    const topRepos = scoredRepos?.slice(0, 5) || [];
     
     // Render repo cards - using actual HTML element ID
     const container = document.getElementById('repo-catalog');
     if (container) {
       container.innerHTML = '';
+      
+      if (topRepos.length === 0) {
+        container.innerHTML = '<p class="font-mono" style="color: var(--text-muted);">No repositories found</p>';
+        return;
+      }
+      
       topRepos.forEach((repo, index) => {
         const card = this.chartsRenderer.renderRepoCard(repo, index + 1);
         container.appendChild(card);
@@ -756,15 +756,10 @@ class GitStoryApp {
    * Populate Featured Repo slide (Slide 11)
    */
   populateFeaturedRepoSlide() {
-    const { repos } = this.userData;
+    // Use the pre-computed scored repos which factor in user activity
+    const { scoredRepos } = this.processedData;
     
-    // Get top repo
-    const scoredRepos = repos.map(repo => ({
-      ...repo,
-      score: this.dataProcessor.calculateRepoScore(repo)
-    })).sort((a, b) => b.score - a.score);
-    
-    const featured = scoredRepos[0];
+    const featured = scoredRepos?.[0];
     if (!featured) return;
     
     // Update featured repo info - using actual HTML element IDs

@@ -959,6 +959,16 @@ class ChartsRenderer {
     card.style.animationDelay = `${(rank - 1) * 150}ms`;
     
     const langColor = this.getLanguageColor(repo.language);
+    const activity = repo.userActivity || {};
+    const hasActivity = activity.commits > 0 || activity.pullRequests > 0;
+    
+    // Show user's activity if available
+    const activityBadge = hasActivity ? `
+      <div class="repo-activity">
+        ${activity.commits > 0 ? `<span class="activity-badge commits" title="Your commits">📝 ${activity.commits}</span>` : ''}
+        ${activity.pullRequests > 0 ? `<span class="activity-badge prs" title="Your PRs">🔀 ${activity.pullRequests}</span>` : ''}
+      </div>
+    ` : '';
     
     card.innerHTML = `
       <div class="repo-rank font-display">#${rank}</div>
@@ -970,6 +980,7 @@ class ChartsRenderer {
           <span class="repo-stars">★ ${(repo.stargazers_count || 0).toLocaleString()}</span>
           <span class="repo-forks">⑂ ${(repo.forks_count || 0).toLocaleString()}</span>
         </div>
+        ${activityBadge}
       </div>
       <div class="repo-score font-display">${(repo.score || 0).toFixed(1)}</div>
     `;

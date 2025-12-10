@@ -18,15 +18,67 @@ class DataProcessor {
   processAll(rawData) {
     const { user, repos, events, contributions, languages } = rawData;
     
+    // Calculate user activity per repo from events
+    const repoActivity = this.calculateRepoActivity(events);
+    
     return {
       stats: this.calculateStats(contributions, repos, user),
       heatmapData: this.processHeatmap(contributions),
       activityBreakdown: this.calculateActivityBreakdown(events),
       hourlyActivity: this.calculateHourlyActivity(events),
-      scoredRepos: this.scoreRepositories(repos),
+      scoredRepos: this.scoreRepositories(repos, repoActivity),
+      repoActivity,
       languages,
       persona: this.determinePersona(contributions, repos, user, events),
     };
+  }
+
+  /**
+   * Calculate user's activity (commits, PRs) per repository from events
+   * @param {Array} events - GitHub events
+   * @returns {Object} - Map of repo name to activity counts
+   */
+  calculateRepoActivity(events) {
+    const activity = {};
+    
+    for (const event of events || []) {
+      const repoName = event.repo?.name?.split('/')[1] || event.repo?.name;
+      if (!repoName) continue;
+      
+      if (!activity[repoName]) {
+        activity[repoName] = { commits: 0, pullRequests: 0, issues: 0, total: 0 };
+      }
+      
+      switch (event.type) {
+        case 'PushEvent':
+          const commitCount = event.payload?.commits?.length || 1;
+          activity[repoName].commits += commitCount;
+          activity[repoName].total += commitCount;
+          break;
+        case 'PullRequestEvent':
+          activity[repoName].pullRequests++;
+          activity[repoName].total++;
+          break;
+        case 'PullRequestReviewEvent':
+        case 'PullRequestReviewCommentEvent':
+          activity[repoName].pullRequests++;
+          activity[repoName].total++;
+          break;
+        case 'IssuesEvent':
+        case 'IssueCommentEvent':
+          activity[repoName].issues++;
+          activity[repoName].total++;
+          break;
+        case 'CreateEvent':
+        case 'DeleteEvent':
+        case 'WatchEvent':
+        case 'ForkEvent':
+          activity[repoName].total++;
+          break;
+      }
+    }
+    
+    return activity;
   }
 
   /**
@@ -355,46 +407,63 @@ class DataProcessor {
 
   /**
    * Score repositories by importance
+   * Factors in user's actual commits, PRs, and activity
    * @param {Array} repos - Repository list
+   * @param {Object} repoActivity - User's activity per repo from events
    * @returns {Array} - Scored and sorted repositories
    */
-  scoreRepositories(repos) {
+  scoreRepositories(repos, repoActivity = {}) {
     const now = new Date();
+    
+    // Find max activity to normalize scores
+    const maxActivity = Math.max(
+      ...Object.values(repoActivity).map(a => a.total || 0),
+      1
+    );
     
     const scored = repos.map(repo => {
       let score = 0;
+      const activity = repoActivity[repo.name] || { commits: 0, pullRequests: 0, issues: 0, total: 0 };
       
-      // 1. Stars (25%) - logarithmic scale
-      const starsScore = Math.log10(repo.stargazers_count + 1) * 25;
+      // 1. User's commits and activity (35%) - MOST IMPORTANT
+      // This reflects repos the user actually worked on
+      const userActivityScore = Math.min(35, (activity.total / maxActivity) * 35 + 
+        (activity.commits > 0 ? 10 : 0) + 
+        (activity.pullRequests > 0 ? 5 : 0));
       
-      // 2. Forks (20%) - logarithmic scale
-      const forksScore = Math.log10(repo.forks_count + 1) * 20;
-      
-      // 3. Recent activity (25%) - time decay
+      // 2. Recent activity (20%) - time decay
       const lastUpdate = new Date(repo.pushed_at);
       const daysSinceUpdate = (now - lastUpdate) / (1000 * 60 * 60 * 24);
-      const activityScore = Math.max(0, 25 - (daysSinceUpdate / 10));
+      const recencyScore = Math.max(0, 20 - (daysSinceUpdate / 15));
       
-      // 4. Originality (15%) - bonus for non-forked
-      const originalityScore = repo.fork ? 0 : 15;
+      // 3. Stars (15%) - logarithmic scale
+      const starsScore = Math.log10(repo.stargazers_count + 1) * 10;
       
-      // 5. Description quality (10%)
+      // 4. Forks (10%) - logarithmic scale
+      const forksScore = Math.log10(repo.forks_count + 1) * 8;
+      
+      // 5. Originality (10%) - bonus for non-forked
+      const originalityScore = repo.fork ? 0 : 10;
+      
+      // 6. Description quality (5%)
       const descScore = repo.description ? 
-        Math.min(10, repo.description.length / 20) : 0;
+        Math.min(5, repo.description.length / 40) : 0;
       
-      // 6. Size/complexity (5%)
+      // 7. Size/complexity (5%)
       const sizeScore = Math.min(5, Math.log10(repo.size + 1));
       
-      score = starsScore + forksScore + activityScore + 
+      score = userActivityScore + recencyScore + starsScore + forksScore + 
               originalityScore + descScore + sizeScore;
       
       return {
         ...repo,
         score: Math.round(score * 10) / 10,
+        userActivity: activity,
         scoreBreakdown: {
+          userActivity: Math.round(userActivityScore * 10) / 10,
+          recency: Math.round(recencyScore * 10) / 10,
           stars: Math.round(starsScore * 10) / 10,
           forks: Math.round(forksScore * 10) / 10,
-          activity: Math.round(activityScore * 10) / 10,
           originality: originalityScore,
           description: Math.round(descScore * 10) / 10,
           size: Math.round(sizeScore * 10) / 10,
