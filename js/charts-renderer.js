@@ -678,8 +678,9 @@ class ChartsRenderer {
     
     topLanguages.forEach((lang, index) => {
       const item = document.createElement('div');
-      item.className = 'language-item';
-      item.style.animationDelay = `${index * 100}ms`;
+      item.className = 'language-item animate__animated animate__fadeInUp animate__faster';
+      item.style.setProperty('--animate-delay', `${index * 0.1}s`);
+      item.style.animationDelay = `${index * 0.1}s`;
       
       const barWidth = maxPercent > 0 
         ? (lang.percent / maxPercent) * 100 
@@ -718,8 +719,9 @@ class ChartsRenderer {
     
     repos.forEach((repo, index) => {
       const card = document.createElement('div');
-      card.className = 'repo-card glass-card';
-      card.style.animationDelay = `${index * 150}ms`;
+      card.className = 'repo-card glass-card animate__animated animate__fadeInUp animate__faster';
+      card.style.setProperty('--animate-delay', `${index * 0.15}s`);
+      card.style.animationDelay = `${index * 0.15}s`;
       
       const langColor = this.getLanguageColor(repo.language);
       
@@ -956,8 +958,9 @@ class ChartsRenderer {
    */
   renderRepoCard(repo, rank) {
     const card = document.createElement('div');
-    card.className = 'repo-card glass-card';
-    card.style.animationDelay = `${(rank - 1) * 150}ms`;
+    card.className = 'repo-card glass-card animate__animated animate__fadeInUp animate__faster';
+    card.style.setProperty('--animate-delay', `${(rank - 1) * 0.15}s`);
+    card.style.animationDelay = `${(rank - 1) * 0.15}s`;
     
     const langColor = this.getLanguageColor(repo.language);
     const activity = repo.userActivity || {};

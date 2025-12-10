@@ -153,7 +153,7 @@ class BaseSlide {
   }
 
   /**
-   * Stagger reveal child elements
+   * Stagger reveal child elements using Animate.css
    * @param {HTMLElement} parent - Parent element
    * @param {string} selector - Child selector
    * @param {number} delay - Delay between reveals in ms
@@ -164,12 +164,10 @@ class BaseSlide {
     const children = parent.querySelectorAll(selector);
     children.forEach((child, index) => {
       child.style.opacity = '0';
-      child.style.transform = 'translateY(20px)';
       
       setTimeout(() => {
-        child.style.transition = 'opacity 0.4s ease-out, transform 0.4s ease-out';
-        child.style.opacity = '1';
-        child.style.transform = 'translateY(0)';
+        child.classList.add('animate__animated', 'animate__fadeInUp', 'animate__faster');
+        child.style.opacity = '';
       }, index * delay);
     });
   }
@@ -189,10 +187,11 @@ class WelcomeSlide extends BaseSlide {
     const element = this.getElement();
     if (!element) return;
     
-    // Trigger aurora reveal animations
-    const reveals = element.querySelectorAll('.aurora-reveal');
-    reveals.forEach((el, index) => {
-      el.style.animationDelay = `${index * 0.2}s`;
+    // Trigger Animate.css reveal animations
+    const animatedElements = element.querySelectorAll('.animate__animated');
+    animatedElements.forEach((el) => {
+      // Reset animation by removing and re-adding class
+      el.style.animationPlayState = 'running';
     });
   }
 }
@@ -224,7 +223,7 @@ class TitleCardSlide extends BaseSlide {
     const yearBadge = element.querySelector('.year-badge');
     if (yearBadge) {
       setTimeout(() => {
-        yearBadge.classList.add('aurora-reveal');
+        yearBadge.classList.add('animate__animated', 'animate__fadeIn');
       }, 800);
     }
   }

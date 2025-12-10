@@ -37,23 +37,26 @@
   }
   50% {
     opacity: 0.8;
-    transform: scale(1.1) rotate(5deg);
+    transform: scale(1.05) rotate(2deg);
   }
 }
 
+/* Aurora bg - DISABLED for performance */
 .aurora-bg::before {
-  animation: aurora-flow 15s ease-in-out infinite;
+  animation: none; /* Disabled for performance */
 }
 
 /* ============================================
-   Aurora Glow Effects
+   Aurora Glow Effects - OPTIMIZED
    ============================================ */
 .aurora-glow {
   position: fixed;
   border-radius: 50%;
-  filter: blur(100px);
+  filter: blur(40px); /* Reduced from 100px */
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
+  contain: strict;
 }
 
 .aurora-glow-1 {
@@ -61,8 +64,8 @@
   left: -10%;
   width: 50vw;
   height: 50vh;
-  background: radial-gradient(ellipse, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
-  animation: aurora-float-1 20s ease-in-out infinite;
+  background: radial-gradient(ellipse, rgba(102, 126, 234, 0.2) 0%, transparent 70%);
+  animation: aurora-float-simple 30s linear infinite; /* Slower, simpler */
 }
 
 .aurora-glow-2 {
@@ -70,38 +73,15 @@
   right: -10%;
   width: 60vw;
   height: 60vh;
-  background: radial-gradient(ellipse, rgba(118, 75, 162, 0.3) 0%, transparent 70%);
-  animation: aurora-float-2 25s ease-in-out infinite;
+  background: radial-gradient(ellipse, rgba(118, 75, 162, 0.2) 0%, transparent 70%);
+  animation: aurora-float-simple 35s linear infinite reverse;
 }
 
-@keyframes aurora-float-1 {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(10%, 10%) scale(1.1);
-  }
-  50% {
-    transform: translate(5%, -5%) scale(0.95);
-  }
-  75% {
-    transform: translate(-5%, 5%) scale(1.05);
-  }
-}
-
-@keyframes aurora-float-2 {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-  }
-  25% {
-    transform: translate(-10%, -5%) scale(1.05);
-  }
-  50% {
-    transform: translate(-5%, 10%) scale(1.1);
-  }
-  75% {
-    transform: translate(5%, -5%) scale(0.95);
-  }
+/* Simplified animation - only translate, no scale */
+@keyframes aurora-float-simple {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
 }
 
 /* ============================================
@@ -136,102 +116,36 @@
 }
 
 /* ============================================
-   Aurora Reveal Effect
+   Aurora Reveal Effect - Using Animate.css
+   Legacy support for any remaining aurora-reveal usage
    ============================================ */
 .aurora-reveal {
-  animation: aurora-fade-in 0.8s var(--animation-smooth) forwards;
+  /* Map to Animate.css fadeInUp */
+  animation: fadeInUp 0.4s ease-out forwards;
 }
 
-.aurora-reveal-delay-1 {
-  animation-delay: 0.15s;
-  opacity: 0;
-}
+.aurora-reveal-delay-1 { animation-delay: 0.1s; opacity: 0; }
+.aurora-reveal-delay-2 { animation-delay: 0.2s; opacity: 0; }
+.aurora-reveal-delay-3 { animation-delay: 0.3s; opacity: 0; }
+.aurora-reveal-delay-4 { animation-delay: 0.4s; opacity: 0; }
+.aurora-reveal-delay-5 { animation-delay: 0.5s; opacity: 0; }
 
-.aurora-reveal-delay-2 {
-  animation-delay: 0.3s;
-  opacity: 0;
-}
-
-.aurora-reveal-delay-3 {
-  animation-delay: 0.45s;
-  opacity: 0;
-}
-
-.aurora-reveal-delay-4 {
-  animation-delay: 0.6s;
-  opacity: 0;
-}
-
-.aurora-reveal-delay-5 {
-  animation-delay: 0.75s;
-  opacity: 0;
-}
-
-@keyframes aurora-fade-in {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-    filter: blur(4px);
-  }
-  60% {
-    opacity: 0.8;
-    transform: translateY(-5px) scale(1.01);
-    filter: blur(1px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
+/* Use Animate.css keyframes - no custom keyframes needed */
 
 /* ============================================
-   Slide Transitions
+   Slide Transitions - Using Animate.css
    ============================================ */
 .slide-enter {
-  animation: slide-in 0.6s var(--animation-smooth) forwards;
+  animation: fadeIn 0.25s ease-out forwards;
 }
 
 .slide-exit {
-  animation: slide-out 0.4s var(--animation-smooth) forwards;
+  animation: fadeOut 0.2s ease-in forwards;
 }
 
-@keyframes slide-in {
-  0% {
-    opacity: 0;
-    transform: translateX(60px) scale(0.95);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
-
-@keyframes slide-out {
-  0% {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-60px) scale(0.95);
-  }
-}
-
-/* Vertical slide variations */
+/* Vertical slide variations - using Animate.css */
 .slide-up-enter {
-  animation: slide-up-in 0.6s var(--animation-smooth) forwards;
-}
-
-@keyframes slide-up-in {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  animation: fadeInUp 0.4s ease-out forwards;
 }
 
 /* ============================================
@@ -339,8 +253,12 @@
     transparent 100%
   );
   background-size: 200% 100%;
-  animation: glass-shimmer 3s linear infinite;
+  /* Removed infinite animation for performance - runs once on hover */
   pointer-events: none;
+}
+
+.glass-shimmer:hover::after {
+  animation: glass-shimmer 1s linear forwards;
 }
 
 /* ============================================
